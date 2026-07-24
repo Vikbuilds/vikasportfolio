@@ -40,7 +40,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       transition={{ duration: 0.4, delay: index * 0.08, ease: "easeOut" }}
     >
       {/* Thumbnail */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
+      <div className="relative aspect-video w-full overflow-hidden bg-muted">
         <Image
           src={project.thumbnail}
           alt={project.title}
