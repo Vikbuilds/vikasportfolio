@@ -6,12 +6,13 @@ import { Projects } from "@/components/projects";
 import { GitHubGraph } from "@/components/github-graph";
 import { Blogs } from "@/components/blogs";
 import { Footer } from "@/components/footer";
+import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 
 export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto w-full max-w-170 px-6 pb-16 pt-20">
+      <main className="mx-auto w-full max-w-[768px] px-6 pb-24 pt-10">
         <div className="space-y-16">
           {/* Hero + About + Socials form the intro block */}
           <div className="space-y-6">
@@ -21,7 +22,7 @@ export default function Home() {
           </div>
 
           {/* Separator */}
-          <hr className="border-border" />
+          <hr className="border-dashed border-border/40" />
 
           {/* Projects */}
           <Projects />
@@ -30,15 +31,22 @@ export default function Home() {
           <GitHubGraph />
 
           {/* Separator */}
-          <hr className="border-border" />
+          <hr className="border-dashed border-border/40" />
 
           {/* Blogs */}
           <Blogs />
         </div>
       </main>
-      <div className="mx-auto w-full max-w-170 px-6">
+      <div className="mx-auto w-full max-w-[768px] px-6 pb-20">
         <Footer />
       </div>
+
+      {/* Progressive blur at bottom */}
+      <ProgressiveBlur
+        className="fixed bottom-0 left-0 right-0 z-30"
+        position="bottom"
+        height="80px"
+      />
     </>
   );
 }
