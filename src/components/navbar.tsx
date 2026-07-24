@@ -21,7 +21,7 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl backdrop-saturate-150">
-      <div className="mx-auto flex h-14 max-w-[680px] items-center justify-between px-6">
+      <div className="mx-auto flex h-14 max-w-170 items-center justify-between px-6">
         <div className="flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
