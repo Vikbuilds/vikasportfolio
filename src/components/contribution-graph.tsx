@@ -73,11 +73,11 @@ const DEFAULT_LABELS: Labels = {
 }
 
 const THEME = cn(
-  'data-[level="0"]:fill-muted-foreground/5',
-  'data-[level="1"]:fill-muted-foreground/20',
-  'data-[level="2"]:fill-muted-foreground/40',
-  'data-[level="3"]:fill-muted-foreground/60',
-  'data-[level="4"]:fill-muted-foreground/80'
+  'data-[level="0"]:fill-[var(--contrib-0)]',
+  'data-[level="1"]:fill-[var(--contrib-1)]',
+  'data-[level="2"]:fill-[var(--contrib-2)]',
+  'data-[level="3"]:fill-[var(--contrib-3)]',
+  'data-[level="4"]:fill-[var(--contrib-4)]'
 )
 
 type ContributionGraphContextType = {
