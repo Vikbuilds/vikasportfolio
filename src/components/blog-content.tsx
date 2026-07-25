@@ -254,7 +254,7 @@ export function BlogContent({ blog }: { blog: Blog }) {
           <hr className="border-dashed border-border/15" />
 
           {/* Blog content */}
-          <article className="max-w-none text-[15px] leading-relaxed">
+          <article className="max-w-none text-[15px] leading-relaxed ">
             {renderContent(blog.content)}
           </article>
         </motion.div>
