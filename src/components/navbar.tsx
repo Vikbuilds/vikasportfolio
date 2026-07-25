@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/tooltip";
 
 const navLinks = [
-  { label: "3000", href: "#home" },
-  { label: "Proof of Work", href: "#projects" },
-  { label: "Blogs", href: "#blogs" },
+  { label: "3000", href: "/" },
+  { label: "Proof of Work", href: "/#projects" },
+  { label: "Blogs", href: "/blog" },
 ];
 
 export function Navbar() {
