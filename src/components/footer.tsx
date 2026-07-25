@@ -1,3 +1,5 @@
+import { Bug } from "lucide-react";
+
 export function Footer() {
   return (
     <footer className="border-t border-dashed border-border/40 py-8">
@@ -13,8 +15,30 @@ export function Footer() {
             Shivam Verma
           </a>
         </p>
+        <div className="flex items-center gap-2 text-[11px] text-muted-foreground/50">
+          <p>© {new Date().getFullYear()} · All rights reserved.</p>
+          <span>·</span>
+          <a
+            href="https://x.com/theadroitdev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 hover:text-foreground transition-colors duration-200"
+          >
+            <Bug size={12} />
+            Report a bug
+          </a>
+        </div>
         <p className="text-[11px] text-muted-foreground/50">
-          © {new Date().getFullYear()} · All rights reserved.
+          Source code is available at{" "}
+          <a
+            className="text-foreground link-underline"
+            href="https://github.com/TheAdroitDev/Portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+          .
         </p>
       </div>
     </footer>
