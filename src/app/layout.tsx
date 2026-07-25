@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Schibsted_Grotesk } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
@@ -43,6 +44,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background text-foreground antialiased">
+        <Script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="d92f05f0-3cf6-4d7e-b7f2-7066eef3dcad"
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
