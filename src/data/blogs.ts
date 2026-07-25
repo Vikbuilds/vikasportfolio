@@ -11,124 +11,360 @@ export interface Blog {
 }
 
 export const blogs: Blog[] = [
+
   {
-    title: "Building Scalable APIs with Node.js and Redis",
-    slug: "scalable-apis",
-    subtitle:
-      "High-performance caching, rate limiting, and queue architecture",
-    description:
-      "A deep dive into designing high-performance REST APIs with caching strategies, rate limiting, and queue-based architecture.",
-    date: "2025-06-15",
-    url: "https://hashnode.com/@theadroitdev",
-    readTime: "8 min read",
-    thumbnail: "/blogs/scalable-apis.jpg",
-    content: `When building APIs that need to serve thousands of requests per second, caching isn't optional — it's foundational. Redis, with its in-memory data store, becomes the backbone of any high-performance API architecture.
+    title: "REST API Design Made Simple with Express.js",
+    slug: "rest-api",
+    subtitle: "When a mobile app loads your profile, when a website fetches a list of products, when a dashboard displays live data, something is making requests to... ",
+    description: "When a mobile app loads your profile, when a website fetches a list of products... ",
+    date: "2026-07-25",
+    url: "https://timblarc.hashnode.dev/rest-api",
+    readTime: "5 min read",
+    thumbnail: "/blogs/rest-api.png",
+    content: `When a mobile app loads your profile, when a website fetches a list of products, when a dashboard displays live data, something is making requests to a server and receiving structured responses back.
 
-## The Caching Layer
+That communication happens through an API, and the most common way to design one is REST.
 
-The first thing I implemented was a multi-tier caching strategy. Instead of hitting the database for every request, responses are cached at three levels:
+REST is not a protocol or a library.
 
-1. **In-memory cache** (Node.js process) — for hot data with sub-millisecond access
-2. **Redis cache** — for shared state across multiple server instances
-3. **Database** — the source of truth, accessed only on cache misses
+It is a set of conventions for how an API should be structured.
 
-This layered approach reduced our average response time from 240ms to 12ms — a 20x improvement. The key insight was understanding which data changes frequently vs. which data is essentially static. User profiles? Cache for 5 minutes. Product catalog? Cache for an hour. Site configuration? Cache until explicitly invalidated.
+Follow those conventions and you end up with an API that other developers can understand, predict, and work with confidently, even if they have never seen your code before.
 
-Here's the caching middleware I wrote:
+* * *
 
-\`\`\`typescript
-import Redis from "ioredis";
+## What REST Means
 
-const redis = new Redis(process.env.REDIS_URL);
+REST stands for Representational State Transfer.
 
-export function cacheMiddleware(ttl: number) {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    const key = \`cache:\${req.originalUrl}\`;
-    const cached = await redis.get(key);
+Underneath the formal name is a practical idea: your API should be organized around resources, and clients interact with those resources using standard HTTP methods.
 
-    if (cached) {
-      return res.json(JSON.parse(cached));
-    }
+A resource is any meaningful piece of data your application manages.
 
-    const originalJson = res.json.bind(res);
-    res.json = (body: any) => {
-      redis.setex(key, ttl, JSON.stringify(body));
-      return originalJson(body);
-    };
+Users, products, orders, articles, comments: these are all resources.
 
-    next();
-  };
-}
+In a REST API, 
+
+each resource has its own URL, and you interact with it using the same HTTP methods the web already understands.
+
+The communication works like this.
+
+A client, a browser, a mobile app, another server, sends an HTTP request to a URL with a method.
+
+The server processes the request, does whatever needs doing, and sends back a response with a status code and usually some data.
+
+The client reads the response and knows whether things went well or not.
+
+Both sides speak the same language.
+
+The client does not need to know how the server is built.
+
+The server does not need to know what kind of client is making the request.
+
+They agree on the structure of the conversation, and that agreement is what REST defines.
+
+* * *
+
+## Resources and URLs
+
+In REST, URLs represent resources, not actions.
+
+This is one of the most important conventions and the one most often violated in practice.
+
+A URL should describe what you are working with, not what you are doing to it:
+
+\`\`\`plaintext
+Good: /users
+Good: /users/42
+Good: /users/42/posts
+
+Not ideal: /getUsers
+Not ideal: /createUser
+Not ideal: /deleteUserById
 \`\`\`
 
-## Rate Limiting with Sliding Windows
+The action is expressed through the HTTP method, not the URL. \`/users\` with a GET means fetch users. \`/users\` with a POST means create a user.
 
-Traditional fixed-window rate limiting has a well-known edge case: a burst of requests at the window boundary can allow 2x the intended rate. I implemented a sliding window algorithm using Redis sorted sets.
+Same URL, different method, different meaning.
 
-Each request is stored as a member with the current timestamp as the score. To check the rate, we count members within the sliding window and remove expired entries — all in a single Redis pipeline.
+This keeps your URLs clean and your API predictable.
 
-\`\`\`typescript
-async function slidingWindowRateLimit(
-  userId: string,
-  windowMs: number,
-  maxRequests: number
-): Promise<boolean> {
-  const key = \`ratelimit:\${userId}\`;
-  const now = Date.now();
-  const windowStart = now - windowMs;
+Resources in URLs are almost always plural nouns. \`/users\` not \`/user\`. \`/products\` not \`/product\`.
 
-  const pipeline = redis.pipeline();
-  pipeline.zremrangebyscore(key, 0, windowStart);
-  pipeline.zadd(key, now.toString(), \`\${now}-\${Math.random()}\`);
-  pipeline.zcard(key);
-  pipeline.expire(key, Math.ceil(windowMs / 1000));
+Individual items within a collection are addressed by their identifier: \`/users/42\` refers to the user with ID 42.
 
-  const results = await pipeline.exec();
-  const count = results?.[2]?.[1] as number;
+* * *
 
-  return count <= maxRequests;
-}
+## HTTP Methods
+
+HTTP provides several methods, and REST assigns a clear meaning to each one.
+
+Four of them cover the vast majority of what any API needs to do.
+
+**GET** retrieves data.
+
+It should never modify anything.
+
+When a client sends a GET request, they are asking to read a resource.
+
+The server returns it.
+
+Nothing on the server changes.
+
+**POST** creates something new.
+
+The client sends data in the request body, and the server uses it to create a new resource.
+
+The response typically includes the created resource or at least its identifier.
+
+**PUT** updates an existing resource.
+
+The client sends the full updated version of the resource, and the server replaces what it has stored.
+
+If any fields are missing from the request, they are typically cleared or reset.
+
+**DELETE** removes a resource.
+
+The client identifies what to remove through the URL, and the server deletes it.
+
+There is usually no request body.
+
+These four methods map naturally to the four basic operations data needs to support: create, read, update, and delete.
+
+* * *
+
+## Status Codes
+
+The status code in a response tells the client immediately whether the request succeeded, failed, or something else happened.
+
+They are grouped by the first digit.
+
+Codes in the 200 range mean success. \`200 OK\` is the standard success response for GET and PUT requests.
+
+\`201 Created\` signals that a POST request succeeded and a new resource was created.
+
+\`204 No Content\` is used for successful DELETE requests where there is nothing to return.
+
+Codes in the 400 range mean the client made an error. 
+
+\`400 Bad Request\` means the request was malformed or missing required data.
+
+\`401 Unauthorized\` means authentication is required. 
+
+\`403 Forbidden\` means the client is authenticated but not allowed to do what they are asking. 
+
+\`404 Not Found\` means the resource does not exist.
+
+Codes in the 500 range mean something went wrong on the server. 
+
+\`500 Internal Server Error\` is the generic catch-all for unexpected failures.
+
+Returning accurate status codes is part of what makes an API genuinely useful.
+
+A client that receives a \`404\`
+
+knows the resource does not exist.
+
+A client that receives a \`401\` knows it needs to authenticate.
+
+These are meaningful signals that the client can act on.
+
+* * *
+
+## Designing Routes for a Users Resource
+
+With these conventions in place, designing the routes for a users resource follows a consistent pattern.
+
+The same pattern applies to any resource in your API.
+
+| Method | URL | Action | | --- | --- | --- | | GET | /users | Return all users | | POST | /users | Create a new user | | GET | /users/:id | Return one user | | PUT | /users/:id | Update one user | | DELETE | /users/:id | Delete one user |
+
+Two URLs, five routes.
+
+The collection URL handles listing and creating.
+
+The individual item URL handles reading, updating, and deleting a specific resource.
+
+This structure is predictable enough that a developer who has never seen your API can make an educated guess about how it works.
+
+* * *
+
+## Building the Routes in Express
+
+Setting up these routes in Express is straightforward.
+
+Each route receives a handler that reads from the request, interacts with whatever data store you are using, and sends back an appropriate response.
+
+\`\`\`javascript
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
+const users = [
+  { id: 1, name: "Shivam", email: "shivam@example.com" },
+  { id: 2, name: "Loid", email: "loid@example.com" }
+];
+
+let nextId = 3;
 \`\`\`
 
-The beauty of this approach is atomicity: Redis handles the entire check-and-update cycle without race conditions, even under heavy concurrent load. We configured different rate limits per tier: free users get 100 requests/minute, pro users get 1000, and enterprise gets 10,000.
+A simple in-memory array stands in for a real database here.
 
-## Queue-Based Architecture
+The logic that follows would work identically with a database call in place of the array operations.
 
-For operations that don't need immediate responses (sending emails, processing webhooks, generating reports), I moved them to a queue-based architecture using BullMQ backed by Redis.
+**GET /users: return all users**
 
-\`\`\`typescript
-import { Queue, Worker } from "bullmq";
+\`\`\`javascript
+app.get("/users", (req, res) => {
+  res.status(200).json(users);
+});
+\`\`\`
 
-const emailQueue = new Queue("emails", {
-  connection: { host: "localhost", port: 6379 },
-  defaultJobOptions: {
-    attempts: 3,
-    backoff: { type: "exponential", delay: 2000 },
-  },
+Returns the entire collection.
+
+Status \`200\` signals success.
+
+**POST /users: create a new user**
+
+\`\`\`javascript
+app.post("/users", (req, res) => {
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: "Name and email are required" });
+  }
+
+  const newUser = { id: nextId++, name, email };
+  users.push(newUser);
+
+  res.status(201).json(newUser);
+});
+\`\`\`
+
+Validates that required fields are present.
+
+Returns \`400\` with a clear message if they are not.
+
+Creates the user and returns \`201\` with the newly created resource.
+
+**GET /users/:id: return one user**
+
+\`\`\`javascript
+app.get("/users/:id", (req, res) => {
+  const user = users.find(u => u.id === parseInt(req.params.id));
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  res.status(200).json(user);
+});
+\`\`\`
+
+Parses the ID from the URL, finds the matching user, returns \`404\` if none exists, and returns \`200\` with the user if found.
+
+**PUT /users/:id: update one user**
+
+\`\`\`javascript
+app.put("/users/:id", (req, res) => {
+  const index = users.findIndex(u => u.id === parseInt(req.params.id));
+
+  if (index === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: "Name and email are required" });
+  }
+
+  users[index] = { id: users[index].id, name, email };
+
+  res.status(200).json(users[index]);
+});
+\`\`\`
+
+Finds the user by ID, replaces their data with what was sent in the request body, and returns the updated user.
+
+The ID is preserved from the original record rather than taken from the request body.
+
+**DELETE /users/:id: delete one user**
+
+\`\`\`javascript
+app.delete("/users/:id", (req, res) => {
+  const index = users.findIndex(u => u.id === parseInt(req.params.id));
+
+  if (index === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  users.splice(index, 1);
+
+  res.status(204).send();
+});
+\`\`\`
+
+Removes the user from the array and returns \`204\` with no body.
+
+There is nothing to return after a deletion, and \`204\` signals that explicitly.
+
+* * *
+
+## Consistent Response Shape
+
+One practice that makes an API significantly easier to work with is keeping response shapes consistent.
+
+When every endpoint returns data in a predictable structure, the client knows what to expect regardless of which route it is calling.
+
+A common pattern wraps data in a consistent envelope:
+
+\`\`\`javascript
+res.status(200).json({
+  success: true,
+  data: user
 });
 
-const worker = new Worker("emails", async (job) => {
-  const { to, subject, body } = job.data;
-  await sendEmail(to, subject, body);
-}, {
-  connection: { host: "localhost", port: 6379 },
-  concurrency: 5,
+res.status(400).json({
+  success: false,
+  error: "Name and email are required"
 });
 \`\`\`
 
-This decoupling transformed our API from a monolithic request-response system into a resilient, event-driven architecture. Failed jobs are automatically retried with exponential backoff, and the API remains responsive even during peak load.
+Success responses always have \`success: true\` and a \`data\` field.
 
-## Connection Pooling and Pipeline Optimization
+Error responses always have \`success: false\` and an \`error\` field.
 
-One often-overlooked optimization is Redis connection pooling. Instead of creating a new connection per request, we maintain a pool of persistent connections. Combined with Redis pipelining (batching multiple commands into a single round trip), we reduced our Redis overhead by 60%.
+A client can check \`success\` first and branch accordingly, without writing different parsing logic for every endpoint.
 
-## Key Takeaways
+* * *
 
-- Cache aggressively, invalidate precisely
-- Rate limiting protects both your users and your infrastructure
-- Not everything needs a synchronous response — embrace queues
-- Redis is not just a cache; it's a Swiss Army knife for distributed systems
-- Connection pooling and pipelining are easy wins with outsized impact`,
+## Wrapping Up
+
+REST API design comes down to a few consistent conventions applied repeatedly: 
+
+resources have URLs, actions are expressed through
+
+HTTP methods, responses carry meaningful status codes, 
+
+and the structure stays predictable across every endpoint.
+
+A developer seeing your \`/users\` routes for the first time 
+
+already knows what GET, POST, PUT, and DELETE do on those URLs.
+
+They know what a \`201\` response means and what to check when they get a \`404\`.
+
+That shared understanding is what makes REST valuable, and Express makes it straightforward to implement cleanly.
+
+The users example here is deliberately simple.
+
+The same pattern scales directly to any resource: posts, products, orders, comments.
+
+Apply the same URL conventions, the same method semantics, and the same status codes, and the API stays coherent as it grows. 
+
+Thank you for reading 💖`,
   },
   {
     title: "Why I Switched from REST to tRPC in Production",
@@ -211,12 +447,14 @@ The developer experience improvement was immediate and dramatic. Auto-complete n
 ## The Trade-offs
 
 ### What We Gained
+
 - **Zero type drift** — impossible for client and server types to disagree
 - **Autocomplete everywhere** — the client knows every available procedure and its exact input/output shape
 - **Faster iteration** — removing the type synchronization step saved roughly 30% of feature development time
 - **Smaller bundle** — no need for axios or fetch wrappers; tRPC's client is lightweight
 
 ### What We Lost
+
 - **HTTP caching** — tRPC uses POST for mutations and batched queries, complicating CDN caching
 - **API discoverability** — no more Swagger/OpenAPI docs for external consumers
 - **Ecosystem lock-in** — tRPC is TypeScript-only; if you need a mobile client in Swift or Kotlin, you'll need a separate API
@@ -226,6 +464,12 @@ The developer experience improvement was immediate and dramatic. Auto-complete n
 
 Absolutely — for internal, TypeScript-only applications. For public APIs or multi-language consumers, REST with generated types (like OpenAPI + code generation) remains the better choice.
 
-The key insight isn't that tRPC is better than REST. It's that the right abstraction depends on your consumer. Internal app with a TypeScript frontend? tRPC. Public API with diverse clients? REST with OpenAPI. The mistake is treating this as a religious debate rather than an engineering decision with clear trade-offs.`,
+The key insight isn't that tRPC is better than REST.
+
+It's that the right abstraction depends on your consumer. Internal app with a TypeScript frontend? tRPC. 
+
+Public API with diverse clients? REST with OpenAPI. The mistake is treating this as a religious debate rather than an engineering decision with clear trade-offs.
+
+Thank you for reading 💖`,
   },
 ];
