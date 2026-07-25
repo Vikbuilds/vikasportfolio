@@ -34,7 +34,7 @@ export const projects: Project[] = [
   {
     title: "AnimeKun",
     description: "Your ultimate anime discovery and tracking platform. (Work in Progress)",
-    thumbnail: "/projects/animekun.png",
+    thumbnail: "/projects/animekun2.png",
     liveUrl: "https://animekun.app/",
     techStack: [
       "Next.js",
