@@ -22,7 +22,7 @@ export default function Home() {
           </div>
 
           {/* Separator */}
-          <hr className="border-dashed border-border/40" />
+          <hr className="border-dashed border-border/15" />
 
           {/* Projects */}
           <Projects />
@@ -31,7 +31,7 @@ export default function Home() {
           <GitHubGraph />
 
           {/* Separator */}
-          <hr className="border-dashed border-border/40" />
+          <hr className="border-dashed border-border/15" />
 
           {/* Blogs */}
           <Blogs />
