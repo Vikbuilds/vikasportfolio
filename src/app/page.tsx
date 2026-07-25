@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto w-full max-w-[768px] px-6 pb-24 pt-10">
+      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-10">
         <div className="space-y-16">
           {/* Hero + About + Socials form the intro block */}
           <div className="space-y-6">
@@ -37,7 +37,7 @@ export default function Home() {
           <Blogs />
         </div>
       </main>
-      <div className="mx-auto w-full max-w-[768px] px-6 pb-20">
+      <div className="mx-auto w-full max-w-3xl px-6 pb-20">
         <Footer />
       </div>
 
