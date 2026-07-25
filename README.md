@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/home.png" alt="Logo" width="100" height="100">
+  <img src="public/home.png" alt="Portfolio Thumbnail" width="240" height="190" style="object-fit: cover; border-radius: 8px;">
   <h1 align="center">Shivam Verma</h1>
   
   <p align="center">
