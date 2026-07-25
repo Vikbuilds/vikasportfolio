@@ -49,10 +49,10 @@ export default function BlogListPage() {
               >
                 <Link
                   href={`/blog/${blog.slug}`}
-                  className={`group flex flex-col gap-2 rounded-xl border border-border bg-card p-5 transition-all duration-300 hover:border-border/80 hover:shadow-sm dark:hover:shadow-none ${
+                  className={`group flex flex-col gap-2 rounded-xl p-5 transition-all duration-300 ${
                     hoveredIndex !== null && hoveredIndex !== i
-                      ? "opacity-40 blur-[1px]"
-                      : ""
+                      ? "opacity-35 blur-[2.5px]"
+                      : "hover:bg-muted/40"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
