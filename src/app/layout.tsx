@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Baloo_Bhaijaan_2 } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -7,6 +7,12 @@ import { cn } from "@/lib/utils";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+});
+
+const balooBhaijaan2 = Baloo_Bhaijaan_2({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-baloo",
 });
 
 export const metadata: Metadata = {
@@ -32,7 +38,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(inter.variable, "font-sans")} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={cn(inter.variable, balooBhaijaan2.variable, "font-sans")}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen bg-background text-foreground antialiased">
         <ThemeProvider
           attribute="class"
