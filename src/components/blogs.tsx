@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Calendar } from "lucide-react";
 import { blogs } from "@/data/blogs";
+import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 
 export function Blogs() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -27,7 +28,7 @@ export function Blogs() {
       </motion.div>
 
       <div className="space-y-3">
-        {blogs.map((blog, i) => (
+        {blogs.slice(0, 3).map((blog, i) => (
           <motion.div
             key={blog.slug}
             initial={{ opacity: 0, y: 16 }}
@@ -47,9 +48,18 @@ export function Blogs() {
               }`}
             >
               <div className="flex items-start justify-between gap-3">
-                <h3 className="text-[15px] font-medium tracking-tight text-foreground transition-colors duration-200 group-hover:text-foreground/80">
-                  {blog.title}
-                </h3>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-[15px] font-medium tracking-tight text-foreground transition-colors duration-200 group-hover:text-foreground/80">
+                    {blog.title}
+                  </h3>
+                  {i === 0 && (
+                    <div className="flex items-center justify-center rounded-full border border-border/50 bg-muted/30 px-2 py-0.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+                      <AnimatedShinyText className="inline-flex items-center justify-center text-[10px] uppercase font-bold tracking-wider transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
+                        ✨ Latest
+                      </AnimatedShinyText>
+                    </div>
+                  )}
+                </div>
                 <ArrowUpRight
                   size={16}
                   className="mt-0.5 shrink-0 text-muted-foreground opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
