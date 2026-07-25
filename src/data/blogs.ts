@@ -34,27 +34,93 @@ The first thing I implemented was a multi-tier caching strategy. Instead of hitt
 
 This layered approach reduced our average response time from 240ms to 12ms — a 20x improvement. The key insight was understanding which data changes frequently vs. which data is essentially static. User profiles? Cache for 5 minutes. Product catalog? Cache for an hour. Site configuration? Cache until explicitly invalidated.
 
+Here's the caching middleware I wrote:
+
+\`\`\`typescript
+import Redis from "ioredis";
+
+const redis = new Redis(process.env.REDIS_URL);
+
+export function cacheMiddleware(ttl: number) {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    const key = \`cache:\${req.originalUrl}\`;
+    const cached = await redis.get(key);
+
+    if (cached) {
+      return res.json(JSON.parse(cached));
+    }
+
+    const originalJson = res.json.bind(res);
+    res.json = (body: any) => {
+      redis.setex(key, ttl, JSON.stringify(body));
+      return originalJson(body);
+    };
+
+    next();
+  };
+}
+\`\`\`
+
 ## Rate Limiting with Sliding Windows
 
 Traditional fixed-window rate limiting has a well-known edge case: a burst of requests at the window boundary can allow 2x the intended rate. I implemented a sliding window algorithm using Redis sorted sets.
 
-Each request is stored as a member with the current timestamp as the score. To check the rate, we count members within the sliding window and remove expired entries — all in a single Redis pipeline. The beauty of this approach is atomicity: Redis handles the entire check-and-update cycle without race conditions, even under heavy concurrent load.
+Each request is stored as a member with the current timestamp as the score. To check the rate, we count members within the sliding window and remove expired entries — all in a single Redis pipeline.
 
-We configured different rate limits per tier: free users get 100 requests/minute, pro users get 1000, and enterprise gets 10,000. The sliding window ensures fair distribution regardless of when in the window requests arrive.
+\`\`\`typescript
+async function slidingWindowRateLimit(
+  userId: string,
+  windowMs: number,
+  maxRequests: number
+): Promise<boolean> {
+  const key = \`ratelimit:\${userId}\`;
+  const now = Date.now();
+  const windowStart = now - windowMs;
+
+  const pipeline = redis.pipeline();
+  pipeline.zremrangebyscore(key, 0, windowStart);
+  pipeline.zadd(key, now.toString(), \`\${now}-\${Math.random()}\`);
+  pipeline.zcard(key);
+  pipeline.expire(key, Math.ceil(windowMs / 1000));
+
+  const results = await pipeline.exec();
+  const count = results?.[2]?.[1] as number;
+
+  return count <= maxRequests;
+}
+\`\`\`
+
+The beauty of this approach is atomicity: Redis handles the entire check-and-update cycle without race conditions, even under heavy concurrent load. We configured different rate limits per tier: free users get 100 requests/minute, pro users get 1000, and enterprise gets 10,000.
 
 ## Queue-Based Architecture
 
 For operations that don't need immediate responses (sending emails, processing webhooks, generating reports), I moved them to a queue-based architecture using BullMQ backed by Redis.
 
-This decoupling transformed our API from a monolithic request-response system into a resilient, event-driven architecture. Failed jobs are automatically retried with exponential backoff, and the API remains responsive even during peak load.
+\`\`\`typescript
+import { Queue, Worker } from "bullmq";
 
-The queue system also gave us observability we didn't have before. We can track job completion rates, average processing times, and failure patterns — all from a Redis-backed dashboard. When a third-party email service goes down, our jobs pile up in the queue instead of timing out and returning 500 errors to users.
+const emailQueue = new Queue("emails", {
+  connection: { host: "localhost", port: 6379 },
+  defaultJobOptions: {
+    attempts: 3,
+    backoff: { type: "exponential", delay: 2000 },
+  },
+});
+
+const worker = new Worker("emails", async (job) => {
+  const { to, subject, body } = job.data;
+  await sendEmail(to, subject, body);
+}, {
+  connection: { host: "localhost", port: 6379 },
+  concurrency: 5,
+});
+\`\`\`
+
+This decoupling transformed our API from a monolithic request-response system into a resilient, event-driven architecture. Failed jobs are automatically retried with exponential backoff, and the API remains responsive even during peak load.
 
 ## Connection Pooling and Pipeline Optimization
 
 One often-overlooked optimization is Redis connection pooling. Instead of creating a new connection per request, we maintain a pool of persistent connections. Combined with Redis pipelining (batching multiple commands into a single round trip), we reduced our Redis overhead by 60%.
-
-The pipeline approach is particularly powerful for multi-step operations like our rate limiter. Instead of three separate round trips (read, check, write), we pipeline all commands and get results in a single network exchange. At scale, these microseconds compound into meaningful latency improvements.
 
 ## Key Takeaways
 
@@ -62,8 +128,7 @@ The pipeline approach is particularly powerful for multi-step operations like ou
 - Rate limiting protects both your users and your infrastructure
 - Not everything needs a synchronous response — embrace queues
 - Redis is not just a cache; it's a Swiss Army knife for distributed systems
-- Connection pooling and pipelining are easy wins with outsized impact
-- Monitor your cache hit rates — they tell you if your strategy is working`,
+- Connection pooling and pipelining are easy wins with outsized impact`,
   },
   {
     title: "Why I Switched from REST to tRPC in Production",
@@ -87,21 +152,61 @@ Our REST API had manually maintained type definitions on both the client and ser
 3. The API documentation
 4. The client-side type definition
 
-This four-step dance was error-prone. Types would drift apart, leading to runtime errors that TypeScript was supposed to prevent. We'd ship a feature, only to discover in production that the frontend expected a string where the backend now returned an object. TypeScript gave us a false sense of security.
-
-The OpenAPI codegen approach helped, but introduced its own complexity. Generated types were often too broad, and the codegen step became another thing to remember (and forget) in the build pipeline.
+This four-step dance was error-prone. Types would drift apart, leading to runtime errors that TypeScript was supposed to prevent. We'd ship a feature, only to discover in production that the frontend expected a string where the backend now returned an object.
 
 ## Enter tRPC
 
 tRPC eliminates the API boundary entirely. Your server-side router definition IS the client-side type. Change a return type on the server, and your IDE immediately shows you every client-side usage that needs updating.
 
-The migration was surgical — we replaced endpoints one at a time, running tRPC alongside our existing REST API using Next.js API routes. Each migration followed the same pattern: create a tRPC procedure, verify it matches the REST endpoint behavior, update the client to use the tRPC hook, and finally remove the REST endpoint. We completed the migration of 47 endpoints in about three weeks.
+Here's how a basic tRPC router looks:
+
+\`\`\`typescript
+import { initTRPC } from "@trpc/server";
+import { z } from "zod";
+
+const t = initTRPC.create();
+
+export const appRouter = t.router({
+  getUser: t.procedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input }) => {
+      const user = await db.user.findUnique({
+        where: { id: input.id },
+      });
+      return user;
+    }),
+
+  updateProfile: t.procedure
+    .input(z.object({
+      name: z.string().min(1),
+      bio: z.string().optional(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      return db.user.update({
+        where: { id: ctx.userId },
+        data: input,
+      });
+    }),
+});
+\`\`\`
+
+And on the client, you get full type inference:
+
+\`\`\`typescript
+// The return type is automatically inferred from the server
+const { data: user } = trpc.getUser.useQuery({ id: "123" });
+// TypeScript knows user.name, user.email, etc.
+
+const mutation = trpc.updateProfile.useMutation();
+// TypeScript enforces the exact input shape
+mutation.mutate({ name: "Shivam", bio: "Builder" });
+\`\`\`
+
+The migration was surgical — we replaced endpoints one at a time, running tRPC alongside our existing REST API. We completed the migration of 47 endpoints in about three weeks.
 
 ## The DX Improvement
 
 The developer experience improvement was immediate and dramatic. Auto-complete now works across the full stack. Hover over a \`useQuery\` call and you see the exact return type, inferred all the way from the database query. Refactoring became fearless — rename a field on the server, and TypeScript catches every client reference instantly.
-
-Error handling also improved significantly. With REST, error responses were loosely typed \`{ message: string }\` objects. With tRPC, we defined typed error codes and the client knows exactly which errors each procedure can throw. No more guessing if an endpoint returns 404 or 400 for missing resources.
 
 ## The Trade-offs
 
@@ -110,20 +215,12 @@ Error handling also improved significantly. With REST, error responses were loos
 - **Autocomplete everywhere** — the client knows every available procedure and its exact input/output shape
 - **Faster iteration** — removing the type synchronization step saved roughly 30% of feature development time
 - **Smaller bundle** — no need for axios or fetch wrappers; tRPC's client is lightweight
-- **Batching for free** — tRPC automatically batches multiple concurrent requests into a single HTTP call
 
 ### What We Lost
-- **HTTP caching** — tRPC uses POST for mutations (expected) but also for batched queries, complicating CDN caching
+- **HTTP caching** — tRPC uses POST for mutations and batched queries, complicating CDN caching
 - **API discoverability** — no more Swagger/OpenAPI docs for external consumers
-- **Ecosystem lock-in** — tRPC is TypeScript-only; if you ever need a mobile client in Swift or Kotlin, you'll need a separate API
-- **Debugging** — REST endpoints are easy to test with curl; tRPC procedures require the client or a specialized tool
-- **Team onboarding** — developers familiar with REST need to learn a new mental model
-
-## Performance Considerations
-
-We initially worried about the performance overhead of tRPC's serialization layer. In practice, the overhead is negligible — superjson adds about 0.5ms per request for typical payloads. The batching feature actually improved performance: pages that previously made 6 parallel API calls now make a single batched request.
-
-The WebSocket transport option for subscriptions was another pleasant surprise. Real-time features that previously required a separate Socket.io setup now work through the same tRPC router, with full type safety on the subscription payloads.
+- **Ecosystem lock-in** — tRPC is TypeScript-only; if you need a mobile client in Swift or Kotlin, you'll need a separate API
+- **Debugging** — REST endpoints are easy to test with curl; tRPC procedures require the client
 
 ## Would I Do It Again?
 
