@@ -18,10 +18,10 @@ export function Blogs() {
         viewport={{ once: true }}
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
-        <h2 className="text-lg font-semibold tracking-tight text-foreground">
+        <h2 className="text-xl font-semibold tracking-tight text-foreground">
           Blogs
         </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-md text-muted-foreground">
           Writing about code, architecture, and lessons learned.
         </p>
       </motion.div>
