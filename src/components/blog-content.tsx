@@ -1,13 +1,22 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, LinkIcon, Check } from "lucide-react";
-import { useState } from "react";
+import { Undo2, LinkIcon, Check } from "lucide-react";
 import type { Blog } from "@/data/blogs";
+import { CodeBlock } from "@/components/ui/code-block";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { Footer } from "@/components/footer";
+import { ProgressiveBlur } from "@/components/ui/progressive-blur";
+
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 export function BlogContent({ blog }: { blog: Blog }) {
   const [copied, setCopied] = useState(false);
@@ -18,22 +27,160 @@ export function BlogContent({ blog }: { blog: Blog }) {
     setTimeout(() => setCopied(false), 2000);
   }, []);
 
+  // Extract h2 sections for ScrollProgress
+  const sections = useMemo(() => {
+    return blog.content
+      .split("\n\n")
+      .filter((block) => block.startsWith("## "))
+      .map((block) => {
+        const label = block.replace("## ", "");
+        return { id: slugify(label), label };
+      });
+  }, [blog.content]);
+
+  const renderContent = (content: string) => {
+    const blocks = content.split("\n\n");
+    const elements: React.ReactNode[] = [];
+
+    for (let i = 0; i < blocks.length; i++) {
+      const block = blocks[i];
+
+      // Code blocks: ```language ... ```
+      if (block.startsWith("```")) {
+        const langMatch = block.match(/^```(\w+)?/);
+        const lang = langMatch?.[1] || "text";
+        let codeContent = block.replace(/^```\w*\n?/, "");
+        if (codeContent.endsWith("```")) {
+          codeContent = codeContent.slice(0, -3).trimEnd();
+        } else {
+          while (i + 1 < blocks.length && !blocks[i + 1].endsWith("```")) {
+            i++;
+            codeContent += "\n\n" + blocks[i];
+          }
+          if (i + 1 < blocks.length) {
+            i++;
+            codeContent += "\n\n" + blocks[i].replace(/```$/, "").trimEnd();
+          }
+        }
+        elements.push(
+          <div key={i} className="my-6">
+            <CodeBlock
+              code={codeContent}
+              language={lang}
+              accent="#39d353"
+              showFrame={false}
+              showHeader={false}
+              showLineNumbers
+              showCopyButton
+            />
+          </div>
+        );
+        continue;
+      }
+
+      // Headings — add id for scroll-progress linking
+      if (block.startsWith("## ")) {
+        const text = block.replace("## ", "");
+        elements.push(
+          <h2
+            key={i}
+            id={slugify(text)}
+            className="mt-10 mb-4 text-lg font-semibold tracking-tight text-foreground scroll-mt-20"
+          >
+            {text}
+          </h2>
+        );
+        continue;
+      }
+      if (block.startsWith("### ")) {
+        elements.push(
+          <h3 key={i} className="mt-7 mb-3 text-base font-semibold tracking-tight text-foreground">
+            {block.replace("### ", "")}
+          </h3>
+        );
+        continue;
+      }
+
+      // Lists
+      if (block.startsWith("1. ") || block.startsWith("- ")) {
+        const items = block.split("\n");
+        const isOrdered = block.startsWith("1. ");
+        const ListTag = isOrdered ? "ol" : "ul";
+        elements.push(
+          <ListTag
+            key={i}
+            className={`my-4 space-y-2 pl-6 ${isOrdered ? "list-decimal" : "list-disc"} text-foreground/80`}
+          >
+            {items.map((item, j) => {
+              const text = item.replace(/^\d+\.\s|^-\s/, "");
+              const parts = text.split(/\*\*(.*?)\*\*/);
+              return (
+                <li key={j} className="text-[15px] leading-relaxed">
+                  {parts.map((part, k) =>
+                    k % 2 === 1 ? (
+                      <strong key={k} className="font-semibold text-foreground">
+                        {part}
+                      </strong>
+                    ) : (
+                      <span key={k}>{part}</span>
+                    )
+                  )}
+                </li>
+              );
+            })}
+          </ListTag>
+        );
+        continue;
+      }
+
+      // Regular paragraphs — handle inline `code` and **bold**
+      elements.push(
+        <p key={i} className="my-4 text-foreground/80 leading-[1.8]">
+          {block.split(/(`[^`]+`|\*\*[^*]+\*\*)/).map((segment, k) => {
+            if (segment.startsWith("`") && segment.endsWith("`")) {
+              return (
+                <code
+                  key={k}
+                  className="rounded-md bg-muted px-1.5 py-0.5 text-[13px] font-mono text-foreground"
+                >
+                  {segment.slice(1, -1)}
+                </code>
+              );
+            }
+            if (segment.startsWith("**") && segment.endsWith("**")) {
+              return (
+                <strong key={k} className="font-semibold text-foreground">
+                  {segment.slice(2, -2)}
+                </strong>
+              );
+            }
+            return <span key={k}>{segment}</span>;
+          })}
+        </p>
+      );
+    }
+
+    return elements;
+  };
+
   return (
     <>
-      <ScrollProgress className="fixed top-0 left-0 z-[200]" />
-      <main className="mx-auto w-full max-w-[768px] px-6 pb-16 pt-8">
+      {/* ScrollProgress with sections — z-[200] so it stays above progressive blur (z-30) */}
+      <ScrollProgress className="z-[200]" sections={sections} />
+
+      <main className="mx-auto w-full max-w-[768px] px-6 pb-24 pt-8">
         <motion.div
           className="space-y-8"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          {/* Back button */}
+          {/* Back button — Undo2 icon */}
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground/70"
           >
-            <ArrowLeft size={16} />
+            <Undo2 size={16} />
             Back
           </Link>
 
@@ -84,59 +231,25 @@ export function BlogContent({ blog }: { blog: Blog }) {
           </div>
 
           {/* Divider */}
-          <hr className="border-dashed border-border/40" />
+          <hr className="border-dashed border-border/15" />
 
           {/* Blog content */}
-          <article className="prose prose-neutral dark:prose-invert max-w-none text-[15px] leading-relaxed">
-            {blog.content.split("\n\n").map((paragraph, i) => {
-              if (paragraph.startsWith("## ")) {
-                return (
-                  <h2
-                    key={i}
-                    className="mt-8 mb-4 text-lg font-semibold tracking-tight text-foreground"
-                  >
-                    {paragraph.replace("## ", "")}
-                  </h2>
-                );
-              }
-              if (paragraph.startsWith("### ")) {
-                return (
-                  <h3
-                    key={i}
-                    className="mt-6 mb-3 text-base font-semibold tracking-tight text-foreground"
-                  >
-                    {paragraph.replace("### ", "")}
-                  </h3>
-                );
-              }
-              if (paragraph.startsWith("1. ") || paragraph.startsWith("- ")) {
-                const items = paragraph.split("\n");
-                const isOrdered = paragraph.startsWith("1. ");
-                const ListTag = isOrdered ? "ol" : "ul";
-                return (
-                  <ListTag
-                    key={i}
-                    className={`my-4 space-y-2 pl-6 ${
-                      isOrdered ? "list-decimal" : "list-disc"
-                    } text-foreground/80`}
-                  >
-                    {items.map((item, j) => (
-                      <li key={j} className="text-[15px] leading-relaxed">
-                        {item.replace(/^\d+\.\s|^-\s/, "")}
-                      </li>
-                    ))}
-                  </ListTag>
-                );
-              }
-              return (
-                <p key={i} className="my-4 text-foreground/80 leading-relaxed">
-                  {paragraph}
-                </p>
-              );
-            })}
+          <article className="max-w-none text-[15px] leading-relaxed">
+            {renderContent(blog.content)}
           </article>
         </motion.div>
       </main>
+
+      <div className="mx-auto w-full max-w-[768px] px-6 pb-20">
+        <Footer />
+      </div>
+
+      {/* Progressive blur at bottom — z-30 */}
+      <ProgressiveBlur
+        className="fixed bottom-0 left-0 right-0 z-30"
+        position="bottom"
+        height="80px"
+      />
     </>
   );
 }
