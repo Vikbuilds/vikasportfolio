@@ -11,17 +11,16 @@ export function About() {
       transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
     >
       <p className="text-[15px] leading-relaxed text-foreground/90">
-        Hey, I&apos;m Shivam — a software builder and fullstack developer with a
-        deep passion for converting complex ideas into robust, real-world
-        applications. I thrive at the intersection of clean architecture and
-        thoughtful design.
-      </p>
+       Konnichiwa, I&apos;m a Software Engineer obsessed with building products people genuinely love to use,
+              </p>
       <p className="text-[15px] leading-relaxed text-foreground/90">
         From architecting secure backend systems to crafting interfaces with
-        flair, I focus on building things that are not just functional — but
-        genuinely delightful to use. Currently exploring the edges of web and
-        mobile engineering.
+        flair, I focus on building things that are not just functional, but robust and scalable. 
       </p>
+            <p className="text-[15px] leading-relaxed text-foreground/90">Currently exploring the edges of AI, web and
+        mobile engineering.</p>
+
+      
     </motion.section>
   );
 }
