@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="public/android-chrome-512x512.png" alt="Logo" width="100" height="100">
-  <h1 align="center">Shivam Verma's Developer Portfolio</h1>
+  <img src="public/home.png" alt="Logo" width="100" height="100">
+  <h1 align="center">Shivam Verma</h1>
   
   <p align="center">
     A minimalist, ultra-fast, and highly interactive developer portfolio & technical blog built for the modern web.
