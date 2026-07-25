@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Schibsted_Grotesk } from "next/font/google";
+import { Geist, Schibsted_Grotesk, Baloo_Bhaijaan_2 } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,11 @@ const geist = Geist({
 const schibstedGrotesk = Schibsted_Grotesk({
   subsets: ["latin"],
   variable: "--font-schibsted",
+});
+
+const baloo = Baloo_Bhaijaan_2({
+  subsets: ["latin"],
+  variable: "--font-baloo",
 });
 
 export const metadata: Metadata = {
@@ -40,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(geist.variable, schibstedGrotesk.variable, "font-sans")}
+      className={cn(geist.variable, schibstedGrotesk.variable, baloo.variable, "font-sans")}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background text-foreground antialiased">
