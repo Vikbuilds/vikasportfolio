@@ -2,6 +2,15 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { MorphingText } from "@/components/ui/morphing-text";
+
+const heroTexts = [
+  "Software Engineer for Web & Mobile",
+  "Full Stack Developer",
+  "Polymath",
+  "Open Source Contributor",
+  "Product Engineer",
+];
 
 export function Hero() {
   return (
@@ -21,15 +30,17 @@ export function Hero() {
           className="rounded-full object-cover ring-1 ring-border transition-transform duration-300 hover:scale-105"
           priority
         />
-        <span className="absolute bottom-1 right-1 h-3.5 w-3.5 rounded-full border-2 border-background bg-emerald-500" />
       </div>
-      <div className="flex flex-col gap-0.5">
+      <div className="flex flex-col gap-0.5 min-w-0 flex-1">
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
           Shivam Verma
         </h1>
-        <p className="text-sm text-muted-foreground">
-          Software Engineer for the Web & Mobile
-        </p>
+        <div className="h-6 relative overflow-hidden">
+          <MorphingText
+            texts={heroTexts}
+            className="h-6 text-sm text-muted-foreground font-medium text-left mx-0 max-w-none filter-[url(#threshold)_blur(0.3px)] leading-6"
+          />
+        </div>
       </div>
     </motion.section>
   );
