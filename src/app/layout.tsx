@@ -16,11 +16,11 @@ const schibstedGrotesk = Schibsted_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Shivam Verma — Software Engineer",
+  title: "Shivam Verma | Software Engineer",
   description:
     "Software builder and fullstack developer crafting robust applications for the web and mobile. Explore my projects, blog, and open-source contributions.",
   openGraph: {
-    title: "Shivam Verma — Software Engineer",
+    title: "Shivam Verma | Software Engineer",
     description:
       "Software builder and fullstack developer crafting robust applications for the web and mobile.",
     type: "website",
