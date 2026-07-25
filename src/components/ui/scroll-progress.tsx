@@ -97,6 +97,11 @@ const ScrollProgress = ({
   const [labelWidth, setLabelWidth] = React.useState<number>()
 
   useIsoLayoutEffect(() => {
+    if (sections.length === 0) {
+      setCollapsedSize((prev) => prev ?? { width: 38, height: 38 })
+      return
+    }
+
     const measure = () => {
       if (labelRef.current) setLabelWidth(labelRef.current.offsetWidth)
       if (collapsedRef.current) {
@@ -159,25 +164,25 @@ const ScrollProgress = ({
   }
 
   const size = open ? openSize : collapsedSize
-  const radius = open ? 26 : (collapsedSize?.height ?? 32) / 2
+  const radius = open ? 24 : (collapsedSize?.height ?? 38) / 2
   const squircle = "[corner-shape:squircle]"
 
   return (
     <div
       ref={rootRef}
       data-slot="scroll-progress"
-      className={cn("fixed bottom-6 left-1/2 z-50 -translate-x-1/2", className)}
+      className={cn("fixed bottom-5 left-1/2 z-[200] -translate-x-1/2", className)}
       {...props}
     >
       <div className="pointer-events-none invisible absolute" aria-hidden>
         <div
           ref={collapsedRef}
-          className="inline-flex items-center gap-2.5 py-1.5 pl-2 pr-4"
+          className="inline-flex items-center gap-2.5 py-2 pl-3 pr-4"
         >
           <span className="h-5 w-5" />
           <span
             ref={labelRef}
-            className="whitespace-nowrap text-sm font-medium leading-none"
+            className="whitespace-nowrap text-xs sm:text-sm font-medium leading-none"
           >
             {label}
           </span>
@@ -186,7 +191,7 @@ const ScrollProgress = ({
           {sections.map((s) => (
             <div
               key={s.id}
-              className="flex items-center gap-3 px-3 py-2 text-sm font-medium leading-none"
+              className="flex items-center gap-2.5 px-3.5 py-2 text-xs sm:text-sm font-medium leading-none"
             >
               <span className="h-1.5 w-1.5" />
               <span className="whitespace-nowrap">{s.label}</span>
@@ -199,7 +204,7 @@ const ScrollProgress = ({
         <motion.div
           data-slot="scroll-progress-surface"
           className={cn(
-            "absolute bottom-0 left-1/2 -translate-x-1/2 overflow-hidden border border-border/60 bg-background/70 shadow-lg backdrop-blur-md",
+            "absolute bottom-0 left-1/2 -translate-x-1/2 overflow-hidden border border-border/60 bg-background/80 shadow-lg backdrop-blur-md",
             squircle
           )}
           initial={false}
@@ -234,7 +239,7 @@ const ScrollProgress = ({
                         type="button"
                         onClick={() => selectSection(s.id)}
                         className={cn(
-                          "relative flex w-full items-center gap-3 rounded-[14px] px-3 py-2 text-left text-sm font-medium leading-none transition-colors",
+                          "relative flex w-full items-center gap-2.5 rounded-[12px] px-3.5 py-2 text-left text-xs sm:text-sm font-medium leading-none transition-colors",
                           squircle,
                           isActive
                             ? "text-foreground"
@@ -245,7 +250,7 @@ const ScrollProgress = ({
                           <motion.span
                             layoutId={`${layoutId}-active`}
                             className={cn(
-                              "absolute inset-0 rounded-[14px] bg-foreground/10",
+                              "absolute inset-0 rounded-[12px] bg-foreground/10",
                               squircle
                             )}
                             transition={
@@ -297,7 +302,7 @@ const ScrollProgress = ({
                 type="button"
                 onClick={() => setOpen(true)}
                 aria-label="Show sections"
-                className="absolute inset-0 flex items-center gap-2.5 py-1.5 pl-2 pr-4"
+                className="absolute inset-0 flex items-center gap-2.5 py-2 pl-3 pr-4 cursor-pointer"
                 initial={{
                   opacity: 0,
                   filter: reduceMotion ? undefined : "blur(4px)",
@@ -333,7 +338,7 @@ const ScrollProgress = ({
                 </span>
 
                 <span
-                  className="relative h-5 shrink-0"
+                  className="relative h-5 shrink-0 flex items-center"
                   style={{ width: labelWidth }}
                 >
                   <AnimatePresence initial={false}>
@@ -341,7 +346,7 @@ const ScrollProgress = ({
                       <motion.span
                         key={labelVersion.current}
                         data-slot="scroll-progress-label"
-                        className="absolute inset-y-0 left-0 flex items-center whitespace-nowrap text-sm font-medium leading-none text-foreground"
+                        className="absolute inset-y-0 left-0 flex items-center whitespace-nowrap text-xs sm:text-sm font-medium leading-none text-foreground"
                         initial={
                           reduceMotion
                             ? { opacity: 0 }
