@@ -8,6 +8,7 @@ import { Undo2, LinkIcon, Check } from "lucide-react";
 import type { Blog } from "@/data/blogs";
 import { CodeBlock } from "@/components/ui/code-block";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
+import confetti from "canvas-confetti";
 import { Footer } from "@/components/footer";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 
@@ -21,9 +22,23 @@ function slugify(text: string) {
 export function BlogContent({ blog }: { blog: Blog }) {
   const [copied, setCopied] = useState(false);
 
-  const copyLink = useCallback(() => {
+  const copyLink = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
+    
+    // Confetti!
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    confetti({
+      origin: {
+        x: x / window.innerWidth,
+        y: y / window.innerHeight,
+      },
+      particleCount: 50,
+      spread: 60,
+    });
+    
     setTimeout(() => setCopied(false), 2000);
   }, []);
 
@@ -31,9 +46,9 @@ export function BlogContent({ blog }: { blog: Blog }) {
   const sections = useMemo(() => {
     return blog.content
       .split("\n\n")
-      .filter((block) => block.startsWith("## "))
+      .filter((block) => block.startsWith("## ") || block.startsWith("### "))
       .map((block) => {
-        const label = block.replace("## ", "");
+        const label = block.replace(/^#+\s/, "");
         return { id: slugify(label), label };
       });
   }, [blog.content]);
@@ -93,9 +108,14 @@ export function BlogContent({ blog }: { blog: Blog }) {
         continue;
       }
       if (block.startsWith("### ")) {
+        const text = block.replace("### ", "");
         elements.push(
-          <h3 key={i} className="mt-7 mb-3 text-base font-semibold tracking-tight text-foreground">
-            {block.replace("### ", "")}
+          <h3
+            key={i}
+            id={slugify(text)}
+            className="mt-7 mb-3 text-base font-semibold tracking-tight text-foreground scroll-mt-20"
+          >
+            {text}
           </h3>
         );
         continue;
