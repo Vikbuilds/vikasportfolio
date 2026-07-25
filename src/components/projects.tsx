@@ -120,12 +120,10 @@ const techIcons: Record<string, { icon: React.ComponentType<{ size?: number; cla
 };
 
 const projectDetails: Record<string, string> = {
-  DevSync:
-    "DevSync was born from the frustration of screen-sharing during pair programming sessions. The latency was unbearable, and context switching between a shared screen and your own editor killed productivity. So I built a real-time collaborative code editor from scratch.\n\nThe core uses Monaco Editor (the same engine behind VS Code) wrapped in a custom React component. Real-time synchronization is handled through Socket.io with operational transformation to resolve concurrent edits without conflicts. The architecture supports up to 8 simultaneous editors with sub-50ms sync latency.\n\nThe integrated terminal runs in a sandboxed Docker container per session, so collaborators can run code without affecting each other's environments. Redis handles session state, cursor positions, and chat messages.",
-  PayTrail:
-    "PayTrail started as an internal tool for tracking freelance invoices but evolved into a full fintech dashboard. The React Native app provides a unified view of payments across Stripe, Razorpay, and manual bank transfers.\n\nThe dashboard features real-time data visualization using Victory Native for charts and D3.js for custom analytics widgets. Subscription analytics track MRR, churn rate, and LTV with cohort analysis. The PostgreSQL backend handles complex financial aggregations with materialized views.\n\nPush notifications alert users about payment failures, upcoming renewals, and revenue milestones. The app uses end-to-end encryption for sensitive financial data.",
-  InkDrop:
-    "InkDrop is my take on what a modern blogging platform should be: minimal in design, maximal in developer experience. It's built on Next.js with MDX for content authoring, giving writers the full power of React components inside their markdown.\n\nThe platform includes automatic SEO optimization: dynamic og:image generation, structured data markup, sitemap generation, and canonical URL management. RSS feeds are generated at build time with full content.\n\nCustom theming is handled through CSS custom properties with a visual theme editor. The platform supports syntax highlighting for 50+ languages, LaTeX math rendering, and interactive code sandboxes powered by Sandpack.",
+  WisePoll:
+    "WisePoll was built to solve the complexities of real-time polling. The core features include poll creation with multiple single-choice questions, mandatory/optional flags, and customizable settings.\n\nRespondents can vote either anonymously or via authentication. An expiry system ensures polls automatically close, rejecting further responses. Public share links allow respondents to answer directly.\n\nLive analytics update in real-time via WebSocket (Socket.io). The dashboard features visual per-question breakdowns with option counts, percentages, and bar charts. Everything is wrapped in a responsive, dark/light theme inspired by Loid with a sage-green palette.",
+  AnimeKun:
+    "AnimeKun is your ultimate anime discovery and tracking platform. Currently in active development, it aims to provide an incredibly fast, seamless, and visually rich experience for managing your watchlists.\n\nThe platform is being built from the ground up with modern tools like Next.js and Tailwind CSS to ensure rapid load times and deep SEO optimization.",
 };
 
 const statusConfig: Record<string, string> = {
@@ -133,6 +131,42 @@ const statusConfig: Record<string, string> = {
   building: "Building",
   "coming-soon": "Coming Soon",
 };
+
+
+function GithubStars({ url }: { url: string }) {
+  const [stars, setStars] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!url || !url.includes('github.com')) return;
+    
+    // Extract owner/repo from URL
+    const match = url.match(/github\.com\/([^/]+\/[^/]+)/);
+    if (!match) return;
+    const repoPath = match[1];
+
+    fetch(`https://api.github.com/repos/${repoPath}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data.stargazers_count === 'number') {
+          setStars(data.stargazers_count);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch github stars", err));
+  }, [url]);
+
+  if (stars === null) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="inline-flex items-center gap-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 px-2 py-0.5 text-xs font-semibold text-yellow-600 dark:text-yellow-400 cursor-pointer shadow-[0_0_10px_rgba(234,179,8,0.2)] transition-all hover:scale-105 hover:bg-yellow-500/20 hover:shadow-[0_0_15px_rgba(234,179,8,0.4)]"
+    >
+      <span className="text-yellow-500">★</span>
+      {stars}
+    </motion.div>
+  );
+}
 
 export function Projects() {
   const [active, setActive] = useState<Project | boolean | null>(null);
@@ -219,12 +253,15 @@ export function Projects() {
               <div>
                 <div className="flex justify-between items-start p-4">
                   <div>
-                    <motion.h3
-                      layoutId={`title-${active.title}-${id}`}
-                      className="font-semibold text-foreground text-base"
-                    >
-                      {active.title}
-                    </motion.h3>
+                    <div className="flex items-center gap-3">
+                      <motion.h3
+                        layoutId={`title-${active.title}-${id}`}
+                        className="font-semibold text-foreground text-base"
+                      >
+                        {active.title}
+                      </motion.h3>
+                      {active.githubUrl && <GithubStars url={active.githubUrl} />}
+                    </div>
                     <motion.p
                       layoutId={`description-${active.description}-${id}`}
                       className="text-muted-foreground text-sm mt-1"
@@ -341,16 +378,19 @@ export function Projects() {
                   alt={project.title}
                   width={400}
                   height={225}
-                  className="h-60 w-full rounded-lg object-cover object-top"
+                  className="h-72 w-full rounded-lg object-cover object-top"
                 />
               </motion.div>
               <div className="flex flex-col gap-1">
-                <motion.h3
-                  layoutId={`title-${project.title}-${id}`}
-                  className="font-semibold text-foreground text-base"
-                >
-                  {project.title}
-                </motion.h3>
+                <div className="flex items-center gap-3">
+                  <motion.h3
+                    layoutId={`title-${project.title}-${id}`}
+                    className="font-semibold text-foreground text-base"
+                  >
+                    {project.title}
+                  </motion.h3>
+                  {project.githubUrl && <GithubStars url={project.githubUrl} />}
+                </div>
                 <motion.p
                   layoutId={`description-${project.description}-${id}`}
                   className="text-muted-foreground text-sm line-clamp-1"
