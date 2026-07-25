@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 
 export default function Home() {
+
   return (
     <>
       <Navbar />
