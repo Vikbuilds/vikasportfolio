@@ -8,6 +8,7 @@ import { ArrowUpRight, Calendar } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { blogs } from "@/data/blogs";
+import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 
 export default function BlogListPage() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -108,6 +109,13 @@ export default function BlogListPage() {
       <div className="mx-auto w-full max-w-[768px] px-6 pb-20">
         <Footer />
       </div>
+
+      {/* Progressive blur at bottom */}
+      <ProgressiveBlur
+        className="fixed bottom-0 left-0 right-0 z-30"
+        position="bottom"
+        height="80px"
+      />
     </>
   );
 }
