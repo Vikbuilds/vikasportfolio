@@ -16,7 +16,7 @@ export default function BlogListPage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto w-full max-w-[768px] px-6 pb-24 pt-10">
+      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-10">
         <div className="space-y-8">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
