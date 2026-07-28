@@ -34,7 +34,7 @@ export function Hero() {
         />
       </div>
       <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-        <h1 className="text-2xl font-bold tracking-tight text-foreground font-[family-name:var(--font-schibsted)]">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground font-(family-name:--font-schibsted)">
           Shivam Verma
         </h1>
         <div className="h-6 relative overflow-hidden">
