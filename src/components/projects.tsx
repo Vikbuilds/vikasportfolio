@@ -284,10 +284,10 @@ export function Projects() {
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
         <h2 className="text-lg font-semibold tracking-tight text-foreground">
-          Proof of Work
+          My Brainchildren
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          A selection of things I&apos;ve built and shipped.
+         A selection of ideas I've brought to life.
         </p>
       </motion.div>
 
