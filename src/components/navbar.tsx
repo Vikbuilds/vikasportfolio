@@ -13,7 +13,7 @@ import {
 
 const navLinks = [
   { label: "3000", href: "/" },
-  { label: "Proof of Work", href: "/#projects" },
+  { label: "Brainchildren", href: "/#projects" },
   { label: "Blogs", href: "/blog" },
 ];
 
