@@ -356,7 +356,7 @@ export function CodeBlock({
                         return (
                             <pre
                                 data-slot='code-block-pre'
-                                className='w-max min-w-full font-mono text-[13px] leading-6 [tab-size:4]'
+                                className='w-max min-w-full font-mono text-[13px] leading-6 tab-4'
                             >
                                 {tokens.map((line, i) => {
                                     const lineProps = getLineProps({ line })
