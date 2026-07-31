@@ -186,9 +186,9 @@ export function BlogContent({ blog }: { blog: Blog }) {
   return (
     <>
       {/* ScrollProgress with sections — z-[200] so it stays above progressive blur (z-30) */}
-      <ScrollProgress className="z-[200]" sections={sections} />
+      <ScrollProgress className="z-200" sections={sections} />
 
-      <main className="mx-auto w-full max-w-[768px] px-6 pb-24 pt-8">
+      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-8">
         <motion.div
           className="space-y-8"
           initial={{ opacity: 0, y: 16 }}
