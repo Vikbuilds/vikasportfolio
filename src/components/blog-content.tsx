@@ -60,6 +60,12 @@ export function BlogContent({ blog }: { blog: Blog }) {
     for (let i = 0; i < blocks.length; i++) {
       const block = blocks[i];
 
+      // Empty lines, <br/>, or &nbsp;: render a vertical spacer
+      if (!block.trim() || block.trim() === "<br>" || block.trim() === "<br />" || block.trim() === "&nbsp;") {
+        elements.push(<div key={i} className="h-6" />);
+        continue;
+      }
+
       // Code blocks: ```language ... ```
       if (block.startsWith("```")) {
         const langMatch = block.match(/^```(\w+)?/);
@@ -95,12 +101,13 @@ export function BlogContent({ blog }: { blog: Blog }) {
 
       // Headings — add id for scroll-progress linking
       if (block.startsWith("## ")) {
-        const text = block.replace("## ", "");
+        const rawText = block.replace(/^##\s+/, "").trim();
+        const text = rawText.replace(/^\*\*(.*?)\*\*$/, "$1").replace(/\*\*/g, "");
         elements.push(
           <h2
             key={i}
             id={slugify(text)}
-            className="mt-10 mb-4 text-lg font-semibold tracking-tight text-foreground scroll-mt-20"
+            className="mt-12 mb-4 text-lg font-semibold tracking-tight text-foreground scroll-mt-20"
           >
             {text}
           </h2>
@@ -108,12 +115,13 @@ export function BlogContent({ blog }: { blog: Blog }) {
         continue;
       }
       if (block.startsWith("### ")) {
-        const text = block.replace("### ", "");
+        const rawText = block.replace(/^###\s+/, "").trim();
+        const text = rawText.replace(/^\*\*(.*?)\*\*$/, "$1").replace(/\*\*/g, "");
         elements.push(
           <h3
             key={i}
             id={slugify(text)}
-            className="mt-7 mb-3 text-base font-semibold tracking-tight text-foreground scroll-mt-20"
+            className="mt-8 mb-3 text-base font-semibold tracking-tight text-foreground scroll-mt-20"
           >
             {text}
           </h3>
@@ -122,7 +130,7 @@ export function BlogContent({ blog }: { blog: Blog }) {
       }
 
       // Lists
-      if (block.startsWith("1. ") || block.startsWith("- ")) {
+      if (block.startsWith("1. ") || block.startsWith("- ") || block.startsWith("* ")) {
         const items = block.split("\n");
         const isOrdered = block.startsWith("1. ");
         const ListTag = isOrdered ? "ol" : "ul";
@@ -132,7 +140,7 @@ export function BlogContent({ blog }: { blog: Blog }) {
             className={`my-4 space-y-2 pl-6 ${isOrdered ? "list-decimal" : "list-disc"} text-foreground/80`}
           >
             {items.map((item, j) => {
-              const text = item.replace(/^\d+\.\s|^-\s/, "");
+              const text = item.replace(/^\d+\.\s+|^[-\*]\s+/, "");
               const parts = text.split(/\*\*(.*?)\*\*/);
               return (
                 <li key={j} className="text-[15px] leading-relaxed">
@@ -151,6 +159,74 @@ export function BlogContent({ blog }: { blog: Blog }) {
           </ListTag>
         );
         continue;
+      }
+
+      // Horizontal rules: * * *, * *, or ---
+      if (/^(\*\s*){2,}\*?$/.test(block.trim()) || block.trim() === "---") {
+        elements.push(<hr key={i} className="my-10 border-t border-border/30" />);
+        continue;
+      }
+
+      // Markdown Images: ![alt](url)
+      const imgMatch = block.trim().match(/^!\[(.*?)\]\((.*?)\)/);
+      if (imgMatch) {
+        const alt = imgMatch[1];
+        const src = imgMatch[2].split(" ")[0];
+        elements.push(
+          <figure key={i} className="my-12 overflow-hidden rounded-xl border border-border/40 bg-muted/10 p-1.5 shadow-sm">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt={alt || "Blog diagram"}
+              className="w-full h-auto object-cover rounded-lg"
+            />
+            {alt && (
+              <figcaption className="mt-2.5 text-center text-xs text-muted-foreground pb-1 font-sans">{alt}</figcaption>
+            )}
+          </figure>
+        );
+        continue;
+      }
+
+      // Tables: | header | header |
+      if (block.trim().startsWith("|")) {
+        const rows = block.trim().split("\n").filter((r) => r.trim().startsWith("|"));
+        if (rows.length >= 2) {
+          const parseRow = (row: string) =>
+            row
+              .split("|")
+              .slice(1, -1)
+              .map((cell) => cell.trim());
+          const headers = parseRow(rows[0]);
+          const bodyRows = rows.slice(2).map(parseRow);
+          elements.push(
+            <div key={i} className="my-6 overflow-x-auto rounded-lg border border-border/40">
+              <table className="w-full border-collapse text-left text-sm">
+                <thead>
+                  <tr className="bg-muted/50 border-b border-border/40">
+                    {headers.map((h, idx) => (
+                      <th key={idx} className="px-4 py-2.5 font-semibold text-foreground border-r last:border-r-0 border-border/40">
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {bodyRows.map((r, rIdx) => (
+                    <tr key={rIdx} className="border-b last:border-b-0 border-border/40 hover:bg-muted/20">
+                      {r.map((c, cIdx) => (
+                        <td key={cIdx} className="px-4 py-2.5 text-foreground/80 border-r last:border-r-0 border-border/40">
+                          {c}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+          continue;
+        }
       }
 
       // Regular paragraphs — handle inline `code` and **bold**
@@ -196,13 +272,15 @@ export function BlogContent({ blog }: { blog: Blog }) {
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
           {/* Back button — Undo2 icon */}
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground/70"
-          >
-            <Undo2 size={16} />
-            Back
-          </Link>
+          <div>
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground/70 mb-4"
+            >
+              <Undo2 size={16} />
+              Back
+            </Link>
+          </div>
 
           {/* Thumbnail */}
           <div className="overflow-hidden rounded-xl">
