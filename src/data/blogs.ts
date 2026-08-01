@@ -65,7 +65,6 @@ It assigns private IPs (using DHCP) and translates private IPs to public IPs(NAT
 | One Public IPs | Multiple IPs |
 | Talks to internet | Talks to devices |
 
-* * *
 
 ## Switch Vs Hub. How local networks actually work?
 
