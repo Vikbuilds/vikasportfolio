@@ -1,25 +1,27 @@
 import { Bug } from "lucide-react";
+import { FooterIllustration } from "@/components/footer-illustration";
 
 export function Footer() {
   return (
-    <footer className="border-t border-dashed border-border/40 py-8">
-      <div className="flex flex-col items-center gap-1.5 text-center">
+    <footer className="w-full pt-6 pb-8">
+      <FooterIllustration />
+      <div className="border-t border-dashed border-border/40 pt-6 flex flex-col items-center gap-1.5 text-center mt-2">
         <p className="text-xs text-muted-foreground/70">
           Built by{" "}
           <a
-            href="https://github.com/theadroitdev"
+            href="https://github.com/Vikbuilds"
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground transition-colors duration-200 hover:text-foreground"
           >
-            Shivam Verma
+            Vikas Acharya
           </a>
         </p>
         <div className="flex items-center gap-2 text-[11px] text-muted-foreground/50">
           <p>© {new Date().getFullYear()} · All rights reserved.</p>
           <span>·</span>
           <a
-            href="https://x.com/theadroitdev"
+            href="https://x.com/VikasAcharyaa"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 hover:text-foreground transition-colors duration-200"
@@ -32,7 +34,7 @@ export function Footer() {
           Source code is available at{" "}
           <a
             className="text-foreground link-underline"
-            href="https://github.com/TheAdroitDev/Portfolio"
+            href="https://github.com/Vikbuilds/Portfolio"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -16,27 +16,27 @@ export default function BlogListPage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-10">
-        <div className="space-y-8">
+      <main className="mx-auto w-full max-w-2xl px-5 pb-20 pt-8">
+        <div className="space-y-6">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
+            className="space-y-2"
           >
             <h1 className="text-2xl font-semibold tracking-tight text-foreground">
               Blogs
             </h1>
-            <p className="mt-2 text-md text-muted-foreground font-[family-name:var(--font-baloo)]">
-              Writing about code, architecture, and lessons learned along the
-              way.
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Writing about code, architecture, and lessons learned along the way.
             </p>
           </motion.div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {blogs.map((blog, i) => (
               <motion.div
                 key={blog.slug}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.4,
@@ -49,27 +49,27 @@ export default function BlogListPage() {
               >
                 <Link
                   href={`/blog/${blog.slug}`}
-                  className={`group flex flex-col gap-2 rounded-xl p-5 transition-all duration-300 ${
+                  className={`group flex flex-col gap-1.5 rounded-xl p-4 transition-all duration-300 ${
                     hoveredIndex !== null && hoveredIndex !== i
                       ? "opacity-35 blur-[2.5px]"
                       : "hover:bg-muted/40"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <h2 className="text-[15px] font-medium tracking-tight text-foreground transition-colors duration-200 group-hover:text-foreground/80">
+                    <h2 className="text-sm font-semibold tracking-tight text-foreground transition-colors duration-200 group-hover:text-foreground/80">
                       {blog.title}
                     </h2>
                     <ArrowUpRight
-                      size={16}
+                      size={14}
                       className="mt-0.5 shrink-0 text-muted-foreground opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     />
                   </div>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
+                  <p className="text-xs leading-relaxed text-muted-foreground/90">
                     {blog.description}
                   </p>
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground/70">
+                  <div className="flex items-center gap-2.5 text-[11px] font-mono text-muted-foreground/60 pt-0.5">
                     <span className="flex items-center gap-1">
-                      <Calendar size={12} />
+                      <Calendar size={11} />
                       {new Date(blog.date).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
@@ -81,7 +81,7 @@ export default function BlogListPage() {
                   </div>
                 </Link>
 
-                {/* Floating thumbnail — between middle and slightly above bottom */}
+                {/* Floating thumbnail */}
                 <AnimatePresence>
                   {hoveredIndex === i && (
                     <motion.div
@@ -94,8 +94,8 @@ export default function BlogListPage() {
                       <Image
                         src={blog.thumbnail}
                         alt={blog.title}
-                        width={200}
-                        height={112}
+                        width={180}
+                        height={100}
                         className="object-cover"
                       />
                     </motion.div>
@@ -106,7 +106,7 @@ export default function BlogListPage() {
           </div>
         </div>
       </main>
-      <div className="mx-auto w-full max-w-[768px] px-6 pb-20">
+      <div className="mx-auto w-full max-w-2xl px-5 pb-16">
         <Footer />
       </div>
 

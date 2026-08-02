@@ -151,3 +151,51 @@ export function MailIcon({ size = 20, ...props }: IconProps) {
     </svg>
   );
 }
+
+export function ProductHuntIcon({ size = 20, ...props }: IconProps) {
+  return (
+    <svg
+      role="img"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path d="M13.604 8.4h-3.405V12h3.405c.995 0 1.801-.806 1.801-1.801 0-.993-.806-1.799-1.801-1.799zM12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm1.604 14.4h-3.405V18H7.8V6h5.804c2.318 0 4.202 1.884 4.202 4.202 0 2.317-1.884 4.198-4.202 4.198z" />
+    </svg>
+  );
+}
+
+export function BuyMeACoffeeIcon({ size = 20, ...props }: IconProps) {
+  return (
+    <svg
+      role="img"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324.022 11.822c.164 7.072 7.371 6.63 7.371 6.63 7.898.306 9.497-6.63 9.497-6.63 3.86.096 6.368-2.665 6.947-8.027zm-6.858 5.753c0 2.203-1.637 3.988-3.656 3.988-2.019 0-3.656-1.785-3.656-3.988V8.948h7.312v5.753zM21.2 12.062c-.297 2.748-1.579 3.568-3.238 3.731V8.948h.939c1.082 0 2.441.517 2.299 3.114z" />
+    </svg>
+  );
+}
+
+export function MedialIcon({ size = 20, ...props }: IconProps) {
+  return (
+    <svg
+      role="img"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path d="M4 4h4l4 7 4-7h4v16h-4v-9l-4 7-4-7v9H4V4z" />
+    </svg>
+  );
+}

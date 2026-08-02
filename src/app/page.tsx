@@ -9,14 +9,13 @@ import { Footer } from "@/components/footer";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 
 export default function Home() {
-
   return (
     <>
       <Navbar />
-      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-10">
-        <div className="space-y-16">
+      <main className="mx-auto w-full max-w-2xl px-5 pb-20 pt-8">
+        <div className="space-y-10">
           {/* Hero + About + Socials form the intro block */}
-          <div className="space-y-6">
+          <div className="space-y-5">
             <Hero />
             <About />
             <Socials />
@@ -38,7 +37,7 @@ export default function Home() {
           <Blogs />
         </div>
       </main>
-      <div className="mx-auto w-full max-w-3xl px-6 pb-20">
+      <div className="mx-auto w-full max-w-2xl px-5 pb-16">
         <Footer />
       </div>
 

@@ -264,10 +264,10 @@ export function BlogContent({ blog }: { blog: Blog }) {
       {/* ScrollProgress with sections — z-[200] so it stays above progressive blur (z-30) */}
       <ScrollProgress className="z-200" sections={sections} />
 
-      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-8">
+      <main className="mx-auto w-full max-w-2xl px-5 pb-20 pt-6">
         <motion.div
-          className="space-y-8"
-          initial={{ opacity: 0, y: 16 }}
+          className="space-y-6"
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
@@ -275,10 +275,10 @@ export function BlogContent({ blog }: { blog: Blog }) {
           <div>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground/70 mb-4"
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors duration-200 hover:text-foreground mb-3 font-mono"
             >
-              <Undo2 size={16} />
-              Back
+              <Undo2 size={14} />
+              Back to blogs
             </Link>
           </div>
 
@@ -295,13 +295,13 @@ export function BlogContent({ blog }: { blog: Blog }) {
           </div>
 
           {/* Title + meta */}
-          <div className="space-y-3">
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          <div className="space-y-2">
+            <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
               {blog.title}
             </h1>
-            <p className="text-base text-muted-foreground">{blog.subtitle}</p>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground/70">
+            <p className="text-sm text-muted-foreground">{blog.subtitle}</p>
+            <div className="flex items-center justify-between pt-1">
+              <span className="text-xs font-mono text-muted-foreground/70">
                 {new Date(blog.date).toLocaleDateString("en-US", {
                   month: "long",
                   day: "numeric",
@@ -311,16 +311,16 @@ export function BlogContent({ blog }: { blog: Blog }) {
               </span>
               <button
                 onClick={copyLink}
-                className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
+                className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
               >
                 {copied ? (
                   <>
-                    <Check size={14} className="text-emerald-500" />
+                    <Check size={13} className="text-emerald-500" />
                     Copied!
                   </>
                 ) : (
                   <>
-                    <LinkIcon size={14} />
+                    <LinkIcon size={13} />
                     Share
                   </>
                 )}
@@ -332,13 +332,13 @@ export function BlogContent({ blog }: { blog: Blog }) {
           <hr className="border-dashed border-border/15" />
 
           {/* Blog content */}
-          <article className="max-w-none text-[15px] leading-relaxed ">
+          <article className="max-w-none text-sm leading-relaxed">
             {renderContent(blog.content)}
           </article>
         </motion.div>
       </main>
 
-      <div className="mx-auto w-full max-w-3xl px-6 pb-20">
+      <div className="mx-auto w-full max-w-2xl px-5 pb-16">
         <Footer />
       </div>
 

@@ -2,6 +2,7 @@ export interface Project {
   title: string;
   description: string;
   thumbnail: string;
+  icon?: string;
   githubUrl?: string;
   liveUrl?: string;
   techStack: string[];
@@ -10,37 +11,45 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    title: "WisePoll",
-    description: "Smart Polling Made Simple — Create, share, and analyze polls with real-time results and rich analytics.",
-    thumbnail: "/projects/wisepoll.png",
-    githubUrl: "https://github.com/TheAdroitDev/WISE-Poll",
-    liveUrl: "https://wisepoll.theadroitdev.com/",
+    title: "craked.dev",
+    description: "Calculate your Cracked Score from public GitHub shipping velocity & builder impact",
+    thumbnail: "/projects/craked.png",
+    icon: "/projects/craked.png",
+    liveUrl: "https://craked.dev",
     techStack: [
-      "React",
+      "Next.js",
       "TypeScript",
-      "Vite",
       "Tailwind CSS",
-      "React Router",
-      "Axios",
-      "Socket.io",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "JWT",
-      "Zod"
+      "GitHub API",
     ],
     status: "live",
   },
   {
-    title: "AnimeKun",
-    description: "Your ultimate anime discovery and tracking platform. (Work in Progress)",
-    thumbnail: "/projects/animekun2.png",
-    liveUrl: "https://animekun/",
+    title: "poloro.xyz",
+    description: "Polaroid-style instant camera & vintage film photo creator",
+    thumbnail: "/projects/poloro.png",
+    icon: "/projects/poloro.png",
+    liveUrl: "https://poloro.xyz",
+    techStack: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Canvas API",
+    ],
+    status: "live",
+  },
+  {
+    title: "plibo.xyz",
+    description: "Digital library platform for creating & browsing actionable playbooks for builders & founders",
+    thumbnail: "/projects/plibo_favicon.png",
+    icon: "/projects/plibo_favicon.png",
+    liveUrl: "https://plibo.xyz",
     techStack: [
       "Next.js",
       "TypeScript",
-      "Tailwind CSS"
+      "Tailwind CSS",
+      "Framer Motion",
     ],
-    status: "building",
-  }
+    status: "live",
+  },
 ];

@@ -1,16 +1,16 @@
 <div align="center">
   <img src="public/home.png" alt="Portfolio Thumbnail" width="240" height="190" style="object-fit: cover; border-radius: 8px;">
-  <h1 align="center">Shivam Verma</h1>
+  <h1 align="center">Vikas Acharya</h1>
   
   <p align="center">
     A minimalist, ultra-fast, and highly interactive developer portfolio & technical blog built for the modern web.
     <br />
-    <a href="https://theadroitdev.com"><strong>Explore the live site »</strong></a>
+    <a href="https://vikasacharya.dev"><strong>Explore the live site »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/TheAdroitDev/Portfolio/issues">Report Bug</a>
+    <a href="https://github.com/VikasAcharyaa/Portfolio/issues">Report Bug</a>
     ·
-    <a href="https://x.com/theadroitdev">Twitter / X</a>
+    <a href="https://x.com/VikasAcharyaa">Twitter / X</a>
   </p>
 </div>
 
@@ -95,12 +95,12 @@ Ensure you have **Node.js 18+** and **pnpm** installed on your machine.
 
 ## 🤝 Contact
 
-**Shivam Verma** - Software Engineer
+**Vikas Acharya** - Software Engineer
 
-* **Twitter**: [@theadroitdev](https://x.com/theadroitdev)
-* **GitHub**: [@TheAdroitDev](https://github.com/TheAdroitDev)
-* **Website**: [theadroitdev.com](https://theadroitdev.com)
+* **Twitter**: [@VikasAcharyaa](https://x.com/VikasAcharyaa)
+* **GitHub**: [@VikasAcharyaa](https://github.com/VikasAcharyaa)
+* **Website**: [vikasacharya.dev](https://vikasacharya.dev)
 
 ---
 
-<p align="center">Developed with ❤️ by Shivam Verma</p>
+<p align="center">Developed with ❤️ by Vikas Acharya</p>

@@ -12,7 +12,7 @@ export function Blogs() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="blogs" className="space-y-6">
+    <section id="blogs" className="space-y-6 scroll-mt-24">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -90,7 +90,7 @@ export function Blogs() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9, y: 10 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="pointer-events-none absolute bottom-3 right-4 z-20 overflow-hidden rounded-lg border border-border shadow-lg"
+                  className="pointer-events-none absolute bottom-3 right-4 z-20 hidden sm:block overflow-hidden rounded-lg border border-border shadow-lg"
                 >
                   <Image
                     src={blog.thumbnail}

@@ -26,7 +26,7 @@ export function Hero() {
       <div className="relative shrink-0">
         <Image
           src="/pfp.png"
-          alt="Shivam Verma"
+          alt="Vikas Acharya"
           width={96}
           height={96}
           className="rounded-full object-cover ring-1 ring-border transition-transform duration-300 hover:scale-105"
@@ -35,7 +35,7 @@ export function Hero() {
       </div>
       <div className="flex flex-col gap-0.5 min-w-0 flex-1">
         <h1 className="text-2xl font-bold tracking-tight text-foreground font-(family-name:--font-schibsted)">
-          Shivam Verma
+          Vikas Acharya
         </h1>
         <div className="h-6 relative overflow-hidden">
           <MorphingText

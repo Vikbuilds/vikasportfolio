@@ -6,29 +6,11 @@ import {
 import { getCachedContributions } from "@/lib/get-cached-contributions";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-const GITHUB_USERNAME = "theadroitdev";
-const GITHUB_PROFILE_URL = "https://github.com/theadroitdev";
+const GITHUB_USERNAME = "Vikbuilds";
+const GITHUB_PROFILE_URL = "https://github.com/Vikbuilds";
 
 export function GitHubGraph() {
-  const contributions = getCachedContributions(GITHUB_USERNAME).then(
-    (data) => {
-      if (data.length === 0) return data;
-      // Filter: start from Aug 3, 2025 (skip partial July weeks) to today
-      // This ensures exactly ~52 weeks fit cleanly without horizontal scroll
-      const today = new Date();
-      const startDate = new Date(today);
-      startDate.setFullYear(startDate.getFullYear() - 1);
-      // Align to next Sunday to start on a clean week boundary
-      const dayOfWeek = startDate.getDay();
-      if (dayOfWeek !== 0) {
-        startDate.setDate(startDate.getDate() + (7 - dayOfWeek));
-      }
-      const cutoff = startDate.toISOString().split("T")[0];
-      const todayStr = today.toISOString().split("T")[0];
-      
-      return data.filter((d) => d.date >= cutoff && d.date <= todayStr);
-    }
-  );
+  const contributions = getCachedContributions(GITHUB_USERNAME);
 
   return (
     <section className="space-y-6">
