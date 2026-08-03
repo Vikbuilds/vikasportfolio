@@ -36,7 +36,7 @@ export default function VisualsPage() {
             <h1 className="text-2xl font-semibold tracking-tight text-foreground font-(family-name:--font-schibsted)">
               Visuals by Vik
             </h1>
-            <p className="text-sm text-muted-foreground truncate">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Moments, light, and perspective captured through my lens. An ongoing visual journal of places and details.
             </p>
           </motion.div>

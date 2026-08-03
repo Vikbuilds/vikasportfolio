@@ -75,7 +75,7 @@ function FavoritesContent() {
           <h1 className="text-2xl font-semibold tracking-tight text-foreground font-(family-name:--font-schibsted)">
             Favorites
           </h1>
-          <p className="text-sm text-muted-foreground truncate">
+          <p className="text-sm text-muted-foreground leading-relaxed">
             A personal stash of books, movies, tools, designs, and minds that have left a lasting impression on me.
           </p>
         </motion.div>

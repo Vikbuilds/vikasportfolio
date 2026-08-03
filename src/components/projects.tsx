@@ -28,7 +28,7 @@ export function Projects() {
         <h2 className="text-xl font-semibold tracking-tight text-foreground">
           Work
         </h2>
-        <p className="mt-1 text-sm text-muted-foreground truncate">
+        <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
           A selection of projects and applications I've built.
         </p>
       </motion.div>
