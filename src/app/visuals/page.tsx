@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, X, Calendar, Camera, Sliders } from "lucide-react";
+import { MapPin, X, Calendar } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
@@ -67,31 +67,17 @@ export default function VisualsPage() {
                   unoptimized
                 />
 
-                {/* Gradient Overlay on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                {/* Subtle Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-                {/* Hover Details & Metadata */}
-                <div className="absolute bottom-0 left-0 right-0 p-3.5 text-white transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 space-y-1.5 pointer-events-none">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="font-semibold text-xs leading-snug drop-shadow-md tracking-tight">
-                      {photo.title}
-                    </p>
-                    <span className="text-[9px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-white/20 backdrop-blur-xs text-white/90 shrink-0">
-                      {photo.category}
-                    </span>
-                  </div>
-
-                  <div className="space-y-0.5 text-[10px] text-white/85 font-mono">
-                    <div className="flex items-center gap-1.5">
-                      <MapPin size={10} className="shrink-0 text-emerald-400" />
-                      <span className="truncate">{photo.location}</span>
-                    </div>
-                    {photo.camera && (
-                      <div className="flex items-center gap-1.5 text-white/70 text-[9.5px]">
-                        <Camera size={10} className="shrink-0 text-white/60" />
-                        <span className="truncate">{photo.camera} • {photo.settings}</span>
-                      </div>
-                    )}
+                {/* Minimal Hover Caption */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 space-y-0.5 pointer-events-none">
+                  <p className="font-semibold text-xs leading-snug drop-shadow-md">
+                    {photo.title}
+                  </p>
+                  <div className="flex items-center gap-1.5 text-[10px] text-white/80 font-mono">
+                    <MapPin size={10} className="shrink-0" />
+                    <span>{photo.location}</span>
                   </div>
                 </div>
               </motion.div>
@@ -140,30 +126,22 @@ export default function VisualsPage() {
               </div>
 
               {/* Minimal Meta */}
-              <div className="p-4 sm:p-4.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-border/40">
-                <div className="space-y-1">
+              <div className="p-4 sm:p-4.5 flex items-center justify-between gap-4">
+                <div>
                   <h2 className="text-sm font-semibold text-foreground tracking-tight">
                     {activePhoto.title}
                   </h2>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground font-mono text-[11px]">
-                    <span className="flex items-center gap-1">
-                      <MapPin size={11} className="text-emerald-500" />
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
+                    <span className="flex items-center gap-1 font-mono text-[11px]">
+                      <MapPin size={11} className="text-muted-foreground" />
                       {activePhoto.location}
                     </span>
                     <span>·</span>
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1 font-mono text-[11px]">
                       <Calendar size={11} />
                       {activePhoto.date}
                     </span>
                   </div>
-                </div>
-
-                <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground/80 bg-muted/40 px-2.5 py-1 rounded-lg border border-border/40 self-start sm:self-center">
-                  <Camera size={11} className="text-muted-foreground" />
-                  <span>{activePhoto.camera}</span>
-                  <span>·</span>
-                  <Sliders size={11} className="text-muted-foreground" />
-                  <span>{activePhoto.settings}</span>
                 </div>
               </div>
             </motion.div>
