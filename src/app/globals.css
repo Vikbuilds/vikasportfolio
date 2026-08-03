@@ -220,3 +220,64 @@ body {
 @utility link-underline {
     @apply underline decoration-current/30 decoration-1 underline-offset-3 transition-colors hover:decoration-current;
 }
+
+/* Perplexity Fonts — Scoped strictly to Private Space */
+@font-face {
+  font-family: "FK Grotesk";
+  src: url("/fonts/perplexity/fk-grotesk.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "FK Grotesk";
+  src: url("/fonts/perplexity/fk-grotesk-italic.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berkeley Mono";
+  src: url("/fonts/perplexity/berkeley-mono.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Berkeley Mono";
+  src: url("/fonts/perplexity/berkeley-mono-italic.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PP Editorial";
+  src: url("/fonts/perplexity/pp-editorial-variable.ttf") format("truetype");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PP Editorial";
+  src: url("/fonts/perplexity/pp-editorial-italic-variable.ttf") format("truetype");
+  font-weight: 300 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+.font-private-grotesk {
+  font-family: "FK Grotesk", var(--font-sans), sans-serif;
+}
+
+.font-private-editorial {
+  font-family: "PP Editorial", Georgia, serif;
+}
+
+.font-private-mono {
+  font-family: "Berkeley Mono", ui-monospace, monospace;
+}

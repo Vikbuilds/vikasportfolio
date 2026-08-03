@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { BookOpen, Camera, Headphones, Lamp } from "lucide-react";
+import { BookOpen, Camera, Headphones, Lamp, KeyRound, Lock, X } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -43,6 +43,11 @@ export function FooterIllustration() {
   const shouldReduceMotion = useReducedMotion();
   const [paws, setPaws] = useState<PawPop[]>([]);
 
+  // Passcode Modal State
+  const [isPasscodeModalOpen, setIsPasscodeModalOpen] = useState(false);
+  const [modalPassword, setModalPassword] = useState("");
+  const [modalError, setModalError] = useState(false);
+
   const handleKidduClick = (e?: React.MouseEvent | React.KeyboardEvent) => {
     if (e && "key" in e) {
       if (e.key !== "Enter" && e.key !== " ") return;
@@ -54,6 +59,19 @@ export function FooterIllustration() {
 
   const handleRemovePaw = (id: number) => {
     setPaws((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  const handlePasscodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const normalizedInput = modalPassword.trim().toLowerCase().replace(/\s+/g, " ");
+    if (normalizedInput === "radhe radhe") {
+      sessionStorage.setItem("private_space_unlocked", "true");
+      setIsPasscodeModalOpen(false);
+      router.push("/private");
+    } else {
+      setModalError(true);
+      setTimeout(() => setModalError(false), 2000);
+    }
   };
 
   // 14 bookshelf position coordinates (1-to-1 matching books on line-art drawing)
@@ -242,7 +260,7 @@ export function FooterIllustration() {
               );
             })}
 
-            {/* Vintage Camera Hotspot on Table (Left Side of Cake) -> Visuals Preview & Navigation */}
+            {/* Vintage Camera Hotspot on Table */}
             <Tooltip>
               <TooltipTrigger
                 style={{
@@ -256,83 +274,18 @@ export function FooterIllustration() {
                 className="absolute z-20 cursor-pointer bg-transparent border-0 outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 group"
               >
                 <div className="relative w-full h-full flex items-center justify-center p-0.5">
-                  {/* Dark Notion-Style Bold Camera Illustration SVG */}
                   <svg
-                    viewBox="0 0 120 84"
-                    className="w-full h-full text-foreground stroke-current fill-none stroke-[3] transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-2 drop-shadow-sm"
+                    viewBox="0 0 115 85"
+                    className="w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-foreground dark:text-white"
                   >
-                    {/* Camera Main Outer Body */}
-                    <rect
-                      x="8"
-                      y="22"
-                      width="104"
-                      height="54"
-                      rx="9"
-                      className="fill-background dark:fill-black stroke-current stroke-[3.5]"
-                    />
-
-                    {/* Notion-style Dark Leatherette Grip Strip */}
-                    <rect
-                      x="8"
-                      y="34"
-                      width="104"
-                      height="28"
-                      className="fill-foreground/15 dark:fill-white/20 stroke-none"
-                    />
-
-                    {/* Top Plate Accent Line */}
-                    <line x1="8" y1="34" x2="112" y2="34" className="stroke-current stroke-[2.5]" />
-
-                    {/* Top Plate Controls Housing */}
-                    <path
-                      d="M 18 22 L 18 12 Q 18 9 21 9 L 99 9 Q 102 9 102 12 L 102 22 Z"
-                      className="fill-background dark:fill-black stroke-current stroke-[3]"
-                    />
-
-                    {/* Shutter Button */}
+                    <rect x="5" y="10" width="105" height="70" rx="8" className="fill-background/90 dark:fill-black/90 stroke-current stroke-[3.5]" />
                     <rect x="25" y="3" width="14" height="6" rx="2" className="fill-foreground stroke-current stroke-[2]" />
-
-                    {/* Film Dial / Wheel */}
                     <rect x="80" y="4" width="14" height="5" rx="1.5" className="fill-foreground stroke-current stroke-[2]" />
-
-                    {/* Viewfinder Window */}
-                    <rect
-                      x="82"
-                      y="14"
-                      width="14"
-                      height="10"
-                      rx="2"
-                      className="fill-foreground dark:fill-white stroke-current stroke-[2.5]"
-                    />
-
-                    {/* Rangefinder Small Window */}
+                    <rect x="82" y="14" width="14" height="10" rx="2" className="fill-foreground dark:fill-white stroke-current stroke-[2.5]" />
                     <circle cx="26" cy="19" r="3.5" className="fill-foreground dark:fill-white stroke-current stroke-[2]" />
-
-                    {/* Big Outer Lens Barrel */}
-                    <circle
-                      cx="58"
-                      cy="48"
-                      r="23"
-                      className="fill-background dark:fill-black stroke-current stroke-[3.5]"
-                    />
-
-                    {/* Lens Middle Ring */}
-                    <circle
-                      cx="58"
-                      cy="48"
-                      r="16"
-                      className="fill-foreground/20 dark:fill-white/20 stroke-current stroke-[2.5]"
-                    />
-
-                    {/* Inner Dark Lens Glass Pupil */}
-                    <circle
-                      cx="58"
-                      cy="48"
-                      r="10"
-                      className="fill-foreground dark:fill-white stroke-current stroke-[2]"
-                    />
-
-                    {/* Glare Reflection Notch */}
+                    <circle cx="58" cy="48" r="23" className="fill-background dark:fill-black stroke-current stroke-[3.5]" />
+                    <circle cx="58" cy="48" r="16" className="fill-foreground/20 dark:fill-white/20 stroke-current stroke-[2.5]" />
+                    <circle cx="58" cy="48" r="10" className="fill-foreground dark:fill-white stroke-current stroke-[2]" />
                     <circle cx="54" cy="44" r="3" className="fill-background dark:fill-black stroke-none" />
                   </svg>
                 </div>
@@ -343,7 +296,6 @@ export function FooterIllustration() {
                 className="bg-popover/95 backdrop-blur-md text-popover-foreground border border-border/60 p-2 shadow-xl rounded-xl z-[100] max-w-[190px] text-center"
               >
                 <div className="space-y-1.5">
-                  {/* Image Preview */}
                   {photos[0] && (
                     <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border border-border/40 bg-black/90">
                       <Image
@@ -355,10 +307,36 @@ export function FooterIllustration() {
                       />
                     </div>
                   )}
-                  {/* Clean Title Only */}
                   <p className="font-semibold text-xs text-foreground tracking-tight line-clamp-1 px-1">
                     Visuals by Vik
                   </p>
+                </div>
+              </TooltipContent>
+            </Tooltip>
+
+            {/* Table Drawer Hotspot — Vikas's Private Space Trigger */}
+            <Tooltip>
+              <TooltipTrigger
+                style={{
+                  left: "60%",
+                  top: "72%",
+                  width: "28%",
+                  height: "16%",
+                }}
+                onClick={() => setIsPasscodeModalOpen(true)}
+                aria-label="Vikas's Private Space"
+                className="absolute z-20 cursor-pointer bg-transparent border-0 outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 group"
+              >
+                <div className="w-full h-full bg-transparent" />
+              </TooltipTrigger>
+              <TooltipContent
+                side="top"
+                sideOffset={8}
+                className="bg-popover/95 backdrop-blur-md text-popover-foreground border border-border/60 p-2 px-3 shadow-xl rounded-xl z-[100] text-center"
+              >
+                <div className="flex items-center gap-1.5 font-medium text-xs text-foreground">
+                  <Lock size={12} className="text-muted-foreground" />
+                  <span>Vikas&apos;s Private Space</span>
                 </div>
               </TooltipContent>
             </Tooltip>
@@ -382,42 +360,119 @@ export function FooterIllustration() {
                   shouldReduceMotion
                     ? {}
                     : {
-                        rotate: [0, -2, 2, 0],
-                        scale: [1, 1.02, 1],
-                        transition: {
-                          duration: 1.2,
-                          repeat: Infinity,
-                          repeatType: "mirror",
-                          ease: "easeInOut",
-                        },
+                        scale: 1.05,
+                        rotate: [0, -3, 3, 0],
+                        transition: { duration: 0.4 },
                       }
                 }
-                whileTap={shouldReduceMotion ? {} : { scale: 0.96 }}
-                className="w-full h-full cursor-pointer border border-transparent rounded-xl focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-transparent"
+                whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
+                className="w-full h-full bg-transparent border-0 outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-pointer"
               />
-
-              {/* Paw Icon One-Shot Click Animation */}
-              <AnimatePresence>
-                {paws.map((paw) => (
-                  <motion.span
-                    key={paw.id}
-                    initial={{ opacity: 1, y: 0, scale: 0.9 }}
-                    animate={
-                      shouldReduceMotion
-                        ? { opacity: [1, 1, 0] }
-                        : { opacity: [1, 1, 0], y: -20, scale: 1.1 }
-                    }
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                    onAnimationComplete={() => handleRemovePaw(paw.id)}
-                    className="absolute -top-5 left-1/2 -translate-x-1/2 pointer-events-none text-base select-none z-30"
-                  >
-                    🐾
-                  </motion.span>
-                ))}
-              </AnimatePresence>
             </div>
+
+            {/* Paw Pops Animation Overlay */}
+            <AnimatePresence>
+              {paws.map((paw) => (
+                <motion.div
+                  key={paw.id}
+                  initial={{ opacity: 0, scale: 0.3, y: 0 }}
+                  animate={{ opacity: 1, scale: 1, y: -28 }}
+                  exit={{ opacity: 0, scale: 0.8, y: -45 }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                  onAnimationComplete={() => handleRemovePaw(paw.id)}
+                  style={{ left: "68%", top: "54%" }}
+                  className="absolute pointer-events-none z-30 select-none"
+                >
+                  <span className="font-mono text-xs font-semibold text-foreground bg-background/90 px-2 py-0.5 rounded-full border border-border/60 shadow-md">
+                    meow!
+                  </span>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         </div>
+
+        {/* Passcode Prompt Modal */}
+        <AnimatePresence>
+          {isPasscodeModalOpen && (
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 select-none">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsPasscodeModalOpen(false)}
+                className="absolute inset-0 bg-background/80 backdrop-blur-md"
+              />
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 8 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 8 }}
+                transition={{ duration: 0.2 }}
+                className="relative z-10 w-full max-w-sm overflow-hidden rounded-3xl border border-border/60 bg-popover/95 p-6 shadow-2xl backdrop-blur-md space-y-4"
+              >
+                <button
+                  onClick={() => setIsPasscodeModalOpen(false)}
+                  className="absolute top-3.5 right-3.5 flex h-7 w-7 items-center justify-center rounded-full bg-muted/40 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                >
+                  <X size={14} />
+                </button>
+
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5 text-foreground font-semibold text-sm">
+                    <Lock size={15} />
+                    <span>Vikas&apos;s Private Space</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Enter password to enter.
+                  </p>
+                </div>
+
+                <motion.form
+                  onSubmit={handlePasscodeSubmit}
+                  animate={modalError ? { x: [-8, 8, -6, 6, -3, 3, 0] } : {}}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-3"
+                >
+                  <div className="relative flex items-center">
+                    <KeyRound
+                      size={14}
+                      className="absolute left-3 text-muted-foreground/60 pointer-events-none"
+                    />
+                    <input
+                      type="password"
+                      placeholder="Enter password..."
+                      value={modalPassword}
+                      onChange={(e) => {
+                        setModalPassword(e.target.value);
+                        if (modalError) setModalError(false);
+                      }}
+                      autoFocus
+                      className={`w-full rounded-xl border ${
+                        modalError
+                          ? "border-red-500/80 bg-red-500/10 focus:border-red-500"
+                          : "border-border/60 bg-muted/20 focus:border-border focus:bg-background"
+                      } pl-9 pr-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none transition-all duration-200`}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full rounded-xl bg-foreground text-background py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity shadow-xs cursor-pointer"
+                  >
+                    Unlock & Open Space
+                  </button>
+                </motion.form>
+
+                {modalError && (
+                  <p className="text-[11px] text-red-500 font-medium text-center">
+                    Incorrect password.
+                  </p>
+                )}
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </section>
     </TooltipProvider>
   );
