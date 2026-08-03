@@ -9,6 +9,7 @@ export interface FavoriteItem {
   icon?: string;
   ogImage?: string;
   coverImage?: string;
+  isMostFav?: boolean;
 }
 
 export const favorites: FavoriteItem[] = [

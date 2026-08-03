@@ -11,6 +11,7 @@ import {
   GitCommit,
   BookOpen,
   Bookmark,
+  FileText,
   Home,
   Copy,
   Check,
@@ -171,6 +172,14 @@ export function CommandPalette() {
                   >
                     <Bookmark size={16} className="text-muted-foreground" />
                     <span>Favorites & Curations</span>
+                  </Command.Item>
+
+                  <Command.Item
+                    onSelect={() => runCommand(() => router.push("/resume"))}
+                    className="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm text-foreground hover:bg-muted/60 data-[selected=true]:bg-muted/80 transition-colors"
+                  >
+                    <FileText size={16} className="text-muted-foreground" />
+                    <span>Resume & CV</span>
                   </Command.Item>
                 </Command.Group>
 

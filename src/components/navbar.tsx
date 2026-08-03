@@ -48,6 +48,8 @@ const NavLinksGroup = memo(function NavLinksGroup() {
         setActiveTab("/visuals");
       } else if (pathname.startsWith("/favorites")) {
         setActiveTab("/favorites");
+      } else if (pathname.startsWith("/resume")) {
+        setActiveTab("/resume");
       } else {
         setActiveTab(pathname);
       }

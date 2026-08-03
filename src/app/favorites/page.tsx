@@ -11,6 +11,7 @@ import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 import { favorites } from "@/data/favorites";
 
 const categories = [
+  "Most Fav",
   "All Time",
   "Books",
   "Movies",
@@ -24,7 +25,7 @@ const categories = [
 
 function FavoritesContent() {
   const searchParams = useSearchParams();
-  const initialCategory = searchParams?.get("category") || "All Time";
+  const initialCategory = searchParams?.get("category") || "Most Fav";
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
@@ -34,7 +35,9 @@ function FavoritesContent() {
   useEffect(() => {
     const cat = searchParams?.get("category");
     if (cat) {
-      if (cat === "All" || cat === "All Time") {
+      if (cat === "Most Fav") {
+        setSelectedCategory("Most Fav");
+      } else if (cat === "All" || cat === "All Time") {
         setSelectedCategory("All Time");
       } else if (categories.includes(cat as (typeof categories)[number])) {
         setSelectedCategory(cat);
@@ -45,9 +48,11 @@ function FavoritesContent() {
   const filteredFavorites = useMemo(() => {
     return favorites.filter((item) => {
       const matchesCategory =
-        selectedCategory === "All Time" ||
-        selectedCategory === "All" ||
-        item.category === selectedCategory;
+        selectedCategory === "All Time" || selectedCategory === "All"
+          ? true
+          : selectedCategory === "Most Fav"
+          ? Boolean(item.isMostFav)
+          : item.category === selectedCategory;
       const matchesSearch =
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
