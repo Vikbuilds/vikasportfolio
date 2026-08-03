@@ -21,21 +21,6 @@ export default function VisualsPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const getBentoSpan = (index: number) => {
-    switch (index % 4) {
-      case 0:
-        return "col-span-1 sm:col-span-2 aspect-[16/10] sm:aspect-[16/9]";
-      case 1:
-        return "col-span-1 aspect-[4/5]";
-      case 2:
-        return "col-span-1 aspect-[4/5]";
-      case 3:
-        return "col-span-1 sm:col-span-2 aspect-[16/9]";
-      default:
-        return "col-span-1 aspect-square";
-    }
-  };
-
   return (
     <>
       <Navbar />
@@ -56,8 +41,8 @@ export default function VisualsPage() {
             </p>
           </motion.div>
 
-          {/* Bento Style Photography Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+          {/* Masonry Photography Grid - Preserving Original Photo Aspect Ratios */}
+          <div className="columns-1 sm:columns-2 gap-3.5 pt-2 space-y-3.5">
             {photos.map((photo, index) => (
               <motion.div
                 key={photo.id}
@@ -66,28 +51,27 @@ export default function VisualsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.4,
-                  delay: Math.min(index * 0.06, 0.25),
+                  delay: Math.min(index * 0.05, 0.25),
                   ease: "easeOut",
                 }}
                 onClick={() => setActivePhoto(photo)}
-                className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-border/40 bg-card/40 shadow-xs hover:border-border/80 transition-all duration-300 ${getBentoSpan(
-                  index
-                )}`}
+                className="group relative cursor-pointer overflow-hidden rounded-2xl border border-border/40 bg-card/40 shadow-xs hover:border-border/80 transition-all duration-300 break-inside-avoid"
               >
                 <Image
                   src={photo.src}
                   alt={photo.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 640px"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  width={800}
+                  height={1000}
+                  sizes="(max-width: 640px) 100vw, 400px"
+                  className="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.02]"
                   unoptimized
                 />
 
                 {/* Subtle Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                 {/* Hover Caption */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 space-y-0.5">
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 space-y-0.5 pointer-events-none">
                   <p className="font-semibold text-xs leading-snug drop-shadow-md">
                     {photo.title}
                   </p>
@@ -102,7 +86,7 @@ export default function VisualsPage() {
         </div>
       </main>
 
-      {/* Lightbox Preview Modal (No Camera Metadata) */}
+      {/* Lightbox Preview Modal */}
       <AnimatePresence>
         {activePhoto && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 select-none">
@@ -129,13 +113,14 @@ export default function VisualsPage() {
                 <X size={16} />
               </button>
 
-              {/* Full Image */}
-              <div className="relative aspect-[4/3] w-full bg-black/90 overflow-hidden">
+              {/* Full Original Image View */}
+              <div className="relative w-full max-h-[75vh] flex items-center justify-center bg-black/95 overflow-hidden p-2">
                 <Image
                   src={activePhoto.src}
                   alt={activePhoto.title}
-                  fill
-                  className="object-contain"
+                  width={1200}
+                  height={1600}
+                  className="max-h-[75vh] w-auto h-auto object-contain rounded-xl"
                   unoptimized
                 />
               </div>

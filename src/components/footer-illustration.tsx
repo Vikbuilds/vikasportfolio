@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { BookOpen, Headphones, Lamp } from "lucide-react";
+import { BookOpen, Camera, Headphones, Lamp } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { favorites } from "@/data/favorites";
+import { photos } from "@/data/photos";
 
 interface BookHotspot {
   left: string;
@@ -240,6 +241,127 @@ export function FooterIllustration() {
                 </Tooltip>
               );
             })}
+
+            {/* Vintage Camera Hotspot on Table (Left Side of Cake) -> Visuals Preview & Navigation */}
+            <Tooltip>
+              <TooltipTrigger
+                style={{
+                  left: "11%",
+                  top: "64%",
+                  width: "11%",
+                  height: "12%",
+                }}
+                onClick={() => router.push("/visuals")}
+                aria-label="View Visuals photography page"
+                className="absolute z-20 cursor-pointer bg-transparent border-0 outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 group"
+              >
+                <div className="relative w-full h-full flex items-center justify-center p-0.5">
+                  {/* Dark Notion-Style Bold Camera Illustration SVG */}
+                  <svg
+                    viewBox="0 0 120 84"
+                    className="w-full h-full text-foreground stroke-current fill-none stroke-[3] transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-2 drop-shadow-sm"
+                  >
+                    {/* Camera Main Outer Body */}
+                    <rect
+                      x="8"
+                      y="22"
+                      width="104"
+                      height="54"
+                      rx="9"
+                      className="fill-background dark:fill-black stroke-current stroke-[3.5]"
+                    />
+
+                    {/* Notion-style Dark Leatherette Grip Strip */}
+                    <rect
+                      x="8"
+                      y="34"
+                      width="104"
+                      height="28"
+                      className="fill-foreground/15 dark:fill-white/20 stroke-none"
+                    />
+
+                    {/* Top Plate Accent Line */}
+                    <line x1="8" y1="34" x2="112" y2="34" className="stroke-current stroke-[2.5]" />
+
+                    {/* Top Plate Controls Housing */}
+                    <path
+                      d="M 18 22 L 18 12 Q 18 9 21 9 L 99 9 Q 102 9 102 12 L 102 22 Z"
+                      className="fill-background dark:fill-black stroke-current stroke-[3]"
+                    />
+
+                    {/* Shutter Button */}
+                    <rect x="25" y="3" width="14" height="6" rx="2" className="fill-foreground stroke-current stroke-[2]" />
+
+                    {/* Film Dial / Wheel */}
+                    <rect x="80" y="4" width="14" height="5" rx="1.5" className="fill-foreground stroke-current stroke-[2]" />
+
+                    {/* Viewfinder Window */}
+                    <rect
+                      x="82"
+                      y="14"
+                      width="14"
+                      height="10"
+                      rx="2"
+                      className="fill-foreground dark:fill-white stroke-current stroke-[2.5]"
+                    />
+
+                    {/* Rangefinder Small Window */}
+                    <circle cx="26" cy="19" r="3.5" className="fill-foreground dark:fill-white stroke-current stroke-[2]" />
+
+                    {/* Big Outer Lens Barrel */}
+                    <circle
+                      cx="58"
+                      cy="48"
+                      r="23"
+                      className="fill-background dark:fill-black stroke-current stroke-[3.5]"
+                    />
+
+                    {/* Lens Middle Ring */}
+                    <circle
+                      cx="58"
+                      cy="48"
+                      r="16"
+                      className="fill-foreground/20 dark:fill-white/20 stroke-current stroke-[2.5]"
+                    />
+
+                    {/* Inner Dark Lens Glass Pupil */}
+                    <circle
+                      cx="58"
+                      cy="48"
+                      r="10"
+                      className="fill-foreground dark:fill-white stroke-current stroke-[2]"
+                    />
+
+                    {/* Glare Reflection Notch */}
+                    <circle cx="54" cy="44" r="3" className="fill-background dark:fill-black stroke-none" />
+                  </svg>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent
+                side="top"
+                sideOffset={8}
+                className="bg-popover/95 backdrop-blur-md text-popover-foreground border border-border/60 p-2 shadow-xl rounded-xl z-[100] max-w-[190px] text-center"
+              >
+                <div className="space-y-1.5">
+                  {/* Image Preview */}
+                  {photos[0] && (
+                    <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border border-border/40 bg-black/90">
+                      <Image
+                        src={photos[0].src}
+                        alt={photos[0].title}
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </div>
+                  )}
+                  {/* Clean Title Only */}
+                  <p className="font-semibold text-xs text-foreground tracking-tight line-clamp-1 px-1">
+                    Visuals by Vik
+                  </p>
+                </div>
+              </TooltipContent>
+            </Tooltip>
 
             {/* Kiddu (Cat) Hotspot — Motion + Paw Pop */}
             <div
