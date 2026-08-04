@@ -162,17 +162,21 @@ function FavoritesContent() {
                         className="pointer-events-none absolute -left-[275px] top-1/2 -translate-y-1/2 z-40 hidden xl:block w-64 overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-1.5 shadow-2xl backdrop-blur-md"
                       >
                         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-muted/60">
-                          <Image
-                            src={
-                              item.coverImage ||
-                              item.ogImage ||
-                              `https://image.thum.io/get/width/600/crop/400/${item.url}`
-                            }
-                            alt={item.title}
-                            fill
-                            className="object-cover object-top"
-                            unoptimized
-                          />
+                          {item.coverImage || item.ogImage ? (
+                            <Image
+                              src={item.coverImage || item.ogImage}
+                              alt={item.title}
+                              fill
+                              className="object-cover object-top"
+                              unoptimized
+                            />
+                          ) : (
+                            <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-gradient-to-br from-muted/80 to-muted/40 text-muted-foreground select-none">
+                              <span className="font-semibold text-xs text-foreground line-clamp-1">{item.title}</span>
+                              <span className="text-[10px] text-muted-foreground/70 font-mono mt-1">{item.domain}</span>
+                              <span className="mt-2 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full border border-border/50 bg-background/50 font-medium">{item.category}</span>
+                            </div>
+                          )}
                         </div>
                       </motion.div>
                     )}

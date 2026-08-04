@@ -278,6 +278,8 @@ export const favorites: FavoriteItem[] = [
     icon: "https://www.google.com/s2/favicons?domain=curated.supply&sz=64",
     ogImage: "https://image.thum.io/get/width/600/crop/400/https://curated.supply",
   },
+
+  //people
   {
     id: "dharmesh-shah",
     title: "Dharmesh Shah",
@@ -301,18 +303,6 @@ export const favorites: FavoriteItem[] = [
     isMostFav: true,
   },
   {
-    id: "nimsdai",
-    title: "Nimsdai (Nirmal Purja)",
-    description: "Giving up is not in the blood sir",
-    domain: "nimsdai.com",
-    url: "https://nimsdai.com",
-    category: "People",
-    icon: "/favorites/nimsdai.jpg",
-    coverImage: "/favorites/nimsdai.jpg",
-    ogImage: "/favorites/nimsdai.jpg",
-    isMostFav: true,
-  },
-  {
     id: "flighty",
     title: "Flighty",
     description: "This app makes the avgeek within me happy",
@@ -322,6 +312,8 @@ export const favorites: FavoriteItem[] = [
     icon: "https://www.google.com/s2/favicons?domain=flightyapp.com&sz=64",
     ogImage: "https://image.thum.io/get/width/600/crop/400/https://flightyapp.com",
   },
+
+  //tools
   {
     id: "raycast",
     title: "Raycast",
