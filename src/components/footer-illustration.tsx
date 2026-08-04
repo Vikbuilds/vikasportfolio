@@ -265,8 +265,8 @@ export function FooterIllustration() {
               <TooltipTrigger
                 style={{
                   left: "11%",
-                  top: "64%",
-                  width: "11%",
+                  top: "62%",
+                  width: "12%",
                   height: "12%",
                 }}
                 onClick={() => router.push("/visuals")}
@@ -276,7 +276,7 @@ export function FooterIllustration() {
                 <div className="relative w-full h-full flex items-center justify-center p-0.5">
                   <svg
                     viewBox="0 0 115 85"
-                    className="w-full h-full opacity-60 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200 text-foreground dark:text-white"
+                    className="w-full h-full opacity-90 transition-all duration-200 group-hover:opacity-100 group-hover:scale-105 text-foreground dark:text-white"
                   >
                     <rect x="5" y="10" width="105" height="70" rx="8" className="fill-background/90 dark:fill-black/90 stroke-current stroke-[3.5]" />
                     <rect x="25" y="3" width="14" height="6" rx="2" className="fill-foreground stroke-current stroke-[2]" />
