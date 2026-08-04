@@ -96,8 +96,8 @@ export const favorites: FavoriteItem[] = [
     url: "https://www.imdb.com/title/tt0758758/",
     category: "Movies",
     icon: "https://www.google.com/s2/favicons?domain=imdb.com&sz=64",
-    coverImage: "https://covers.openlibrary.org/b/isbn/9780385486804-L.jpg",
-    ogImage: "https://covers.openlibrary.org/b/isbn/9780385486804-L.jpg",
+    coverImage: "/favorites/movies/into-the-wild.png",
+    ogImage: "/favorites/movies/into-the-wild.png",
   },
   {
     id: "14-peaks",
