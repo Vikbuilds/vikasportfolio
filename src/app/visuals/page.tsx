@@ -63,15 +63,15 @@ export default function VisualsPage() {
                   width={800}
                   height={1000}
                   sizes="(max-width: 640px) 100vw, 400px"
-                  className="w-full h-auto block grayscale contrast-[1.05] transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03]"
+                  className="w-full h-auto block grayscale-0 sm:grayscale sm:contrast-[1.05] transition-all duration-500 sm:group-hover:grayscale-0 group-hover:scale-[1.03]"
                   unoptimized
                 />
 
                 {/* Subtle Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-                {/* Minimal Hover Caption */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 space-y-0.5 pointer-events-none">
+                {/* Minimal Caption */}
+                <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-white transform translate-y-0 sm:translate-y-2 opacity-100 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 transition-all duration-300 space-y-0.5 pointer-events-none">
                   <p className="font-semibold text-xs leading-snug drop-shadow-md">
                     {photo.title}
                   </p>

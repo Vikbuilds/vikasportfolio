@@ -232,11 +232,11 @@ function FavoritesContent() {
                   </div>
 
                   {/* Right: Monospace Domain Link */}
-                  <div className="hidden xs:flex items-center gap-1 shrink-0 font-mono text-xs text-muted-foreground/60 group-hover:text-muted-foreground transition-colors">
-                    <span>{item.domain}</span>
+                  <div className="flex items-center gap-1 shrink-0 font-mono text-xs text-muted-foreground/60 group-hover:text-muted-foreground transition-colors">
+                    <span className="truncate max-w-[90px] sm:max-w-none">{item.domain}</span>
                     <ExternalLink
                       size={12}
-                      className="opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                      className="opacity-70 sm:opacity-0 transition-opacity duration-200 group-hover:opacity-100"
                     />
                   </div>
                 </motion.a>

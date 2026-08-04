@@ -38,13 +38,14 @@ export function Blogs() {
             className="relative"
             onMouseEnter={() => setHoveredIndex(i)}
             onMouseLeave={() => setHoveredIndex(null)}
+            onTouchStart={() => setHoveredIndex(hoveredIndex === i ? null : i)}
           >
             <Link
               href={`/blog/${blog.slug}`}
               className={`group flex flex-col gap-2 rounded-xl p-5 transition-all duration-300 ${
                 hoveredIndex !== null && hoveredIndex !== i
                   ? "opacity-35 blur-[2.5px]"
-                  : "hover:bg-muted/40"
+                  : "hover:bg-muted/40 active:bg-muted/60"
               }`}
             >
               <div className="flex items-start justify-between gap-3">
@@ -62,7 +63,7 @@ export function Blogs() {
                 </div>
                 <ArrowUpRight
                   size={16}
-                  className="mt-0.5 shrink-0 text-muted-foreground opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  className="mt-0.5 shrink-0 text-muted-foreground opacity-70 sm:opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
               </div>
               <p className="text-sm leading-relaxed text-muted-foreground">
@@ -82,7 +83,7 @@ export function Blogs() {
               </div>
             </Link>
 
-            {/* Floating thumbnail on hover — positioned between middle and slightly above bottom */}
+            {/* Floating thumbnail on hover / touch */}
             <AnimatePresence>
               {hoveredIndex === i && (
                 <motion.div
@@ -90,7 +91,7 @@ export function Blogs() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9, y: 10 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="pointer-events-none absolute bottom-3 right-4 z-20 hidden sm:block overflow-hidden rounded-lg border border-border shadow-lg"
+                  className="pointer-events-none absolute bottom-3 right-3 sm:right-4 z-20 overflow-hidden rounded-lg border border-border shadow-lg max-w-[130px] sm:max-w-none"
                 >
                   <Image
                     src={blog.thumbnail}

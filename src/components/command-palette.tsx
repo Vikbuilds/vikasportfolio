@@ -20,6 +20,7 @@ import {
   Moon,
   ExternalLink,
   Command as CommandIcon,
+  X,
 } from "lucide-react";
 import { socials } from "@/data/socials";
 import {
@@ -115,16 +116,24 @@ export function CommandPalette() {
               label="Global Command Palette"
             >
               {/* Search Bar */}
-              <div className="flex items-center border-b border-border/60 px-4 py-3">
-                <Search size={18} className="mr-3 shrink-0 text-muted-foreground" />
+              <div className="flex items-center border-b border-border/60 px-4 py-3 gap-2">
+                <Search size={18} className="shrink-0 text-muted-foreground" />
                 <Command.Input
                   placeholder="Type a command or search..."
                   className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/60"
                   autoFocus
                 />
-                <kbd className="hidden sm:inline-flex items-center gap-1 rounded border border-border/60 bg-muted/50 px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+                <kbd className="hidden sm:inline-flex items-center gap-1 rounded border border-border/60 bg-muted/50 px-2 py-0.5 font-mono text-[10px] text-muted-foreground shrink-0">
                   ESC
                 </kbd>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="sm:hidden flex items-center justify-center p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors shrink-0"
+                  aria-label="Close Command Palette"
+                >
+                  <X size={18} />
+                </button>
               </div>
 
               {/* Command List */}

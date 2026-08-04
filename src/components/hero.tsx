@@ -34,13 +34,6 @@ export function Hero() {
           className="rounded-full object-cover ring-1 ring-border transition-transform duration-300 hover:scale-105"
           priority
         />
-        {/* Pulsing online status indicator overlay on mobile */}
-        <div className="absolute -bottom-0.5 -right-0.5 sm:hidden flex h-3.5 w-3.5 items-center justify-center rounded-full bg-background p-0.5 ring-2 ring-background">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-          </span>
-        </div>
       </div>
       <div className="flex flex-col gap-1 min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
