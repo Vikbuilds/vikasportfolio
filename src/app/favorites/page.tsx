@@ -153,33 +153,36 @@ function FavoritesContent() {
                 >
                   {/* Floating OpenGraph / Book Cover Preview Card */}
                   <AnimatePresence>
-                    {hoveredId === item.id && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.92, x: -14 }}
-                        animate={{ opacity: 1, scale: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.92, x: -14 }}
-                        transition={{ duration: 0.18, ease: "easeOut" }}
-                        className="pointer-events-none absolute -left-[275px] top-1/2 -translate-y-1/2 z-40 hidden xl:block w-64 overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-1.5 shadow-2xl backdrop-blur-md"
-                      >
-                        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-muted/60">
-                          {item.coverImage || item.ogImage ? (
-                            <Image
-                              src={item.coverImage || item.ogImage}
-                              alt={item.title}
-                              fill
-                              className="object-cover object-top"
-                              unoptimized
-                            />
-                          ) : (
-                            <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-gradient-to-br from-muted/80 to-muted/40 text-muted-foreground select-none">
-                              <span className="font-semibold text-xs text-foreground line-clamp-1">{item.title}</span>
-                              <span className="text-[10px] text-muted-foreground/70 font-mono mt-1">{item.domain}</span>
-                              <span className="mt-2 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full border border-border/50 bg-background/50 font-medium">{item.category}</span>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
+                    {hoveredId === item.id && (() => {
+                      const previewImg = item.coverImage || item.ogImage;
+                      return (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.92, x: -14 }}
+                          animate={{ opacity: 1, scale: 1, x: 0 }}
+                          exit={{ opacity: 0, scale: 0.92, x: -14 }}
+                          transition={{ duration: 0.18, ease: "easeOut" }}
+                          className="pointer-events-none absolute -left-[275px] top-1/2 -translate-y-1/2 z-40 hidden xl:block w-64 overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-1.5 shadow-2xl backdrop-blur-md"
+                        >
+                          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-muted/60">
+                            {previewImg ? (
+                              <Image
+                                src={previewImg}
+                                alt={item.title}
+                                fill
+                                className="object-cover object-top"
+                                unoptimized
+                              />
+                            ) : (
+                              <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-gradient-to-br from-muted/80 to-muted/40 text-muted-foreground select-none">
+                                <span className="font-semibold text-xs text-foreground line-clamp-1">{item.title}</span>
+                                <span className="text-[10px] text-muted-foreground/70 font-mono mt-1">{item.domain}</span>
+                                <span className="mt-2 text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full border border-border/50 bg-background/50 font-medium">{item.category}</span>
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
+                      );
+                    })()}
                   </AnimatePresence>
 
                   {/* Left: Icon / Cover, Title, / , Description (Strict 1 Line) */}
