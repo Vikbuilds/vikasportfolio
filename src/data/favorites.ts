@@ -108,8 +108,8 @@ export const favorites: FavoriteItem[] = [
     url: "https://www.imdb.com/title/tt14013400/",
     category: "Movies",
     icon: "https://www.google.com/s2/favicons?domain=imdb.com&sz=64",
-    coverImage: "https://image.thum.io/get/width/600/crop/400/https://www.imdb.com/title/tt14013400/",
-    ogImage: "https://image.thum.io/get/width/600/crop/400/https://www.imdb.com/title/tt14013400/",
+    coverImage: "https://upload.wikimedia.org/wikipedia/en/e/ed/14_Peaks-_Nothing_Is_Impossible.jpg",
+    ogImage: "https://upload.wikimedia.org/wikipedia/en/e/ed/14_Peaks-_Nothing_Is_Impossible.jpg",
   },
 ];
 
