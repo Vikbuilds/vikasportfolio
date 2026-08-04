@@ -189,16 +189,7 @@ function FavoritesContent() {
                   <div className="flex items-center gap-3 min-w-0 flex-1 overflow-hidden">
                     {/* Icon / Mini Cover */}
                     <div className="relative h-6 w-6 rounded-md overflow-hidden shrink-0 border border-border/40 bg-muted/40 flex items-center justify-center shadow-xs transition-transform duration-200 group-hover:scale-105">
-                      {item.coverImage ? (
-                        <Image
-                          src={item.coverImage}
-                          alt={item.title}
-                          width={24}
-                          height={24}
-                          className="h-full w-full object-cover"
-                          unoptimized
-                        />
-                      ) : item.icon && !imageErrors[item.id] ? (
+                      {item.icon && !imageErrors[item.id] ? (
                         <Image
                           src={item.icon}
                           alt={item.title}
@@ -208,6 +199,15 @@ function FavoritesContent() {
                           onError={() =>
                             setImageErrors((prev) => ({ ...prev, [item.id]: true }))
                           }
+                          unoptimized
+                        />
+                      ) : item.coverImage ? (
+                        <Image
+                          src={item.coverImage}
+                          alt={item.title}
+                          width={24}
+                          height={24}
+                          className="h-full w-full object-cover"
                           unoptimized
                         />
                       ) : item.category === "Books" ? (

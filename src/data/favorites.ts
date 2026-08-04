@@ -40,7 +40,7 @@ export const favorites: FavoriteItem[] = [
     domain: "wikipedia.org",
     url: "https://en.wikipedia.org/wiki/Robin_Williams",
     category: "People",
-    icon: "/favorites/robin-williams-icon.jpg",
+    icon: "/favorites/robin-williams-icon.png",
     coverImage: "/favorites/robin-williams-cover.jpg",
     ogImage: "/favorites/robin-williams-cover.jpg",
     isMostFav: true,
