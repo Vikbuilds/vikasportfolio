@@ -291,7 +291,7 @@ export const favorites: FavoriteItem[] = [
   {
     id: "robin-williams",
     title: "Robin Williams",
-    description: "Iconic actor and legendary comedian who brought warmth, laughter, and brilliant genius to the world.",
+    description: "O Captain! My Captain!",
     domain: "wikipedia.org",
     url: "https://en.wikipedia.org/wiki/Robin_Williams",
     category: "People",
@@ -303,7 +303,7 @@ export const favorites: FavoriteItem[] = [
   {
     id: "nimsdai",
     title: "Nimsdai (Nirmal Purja)",
-    description: "Relentless high-altitude mountaineer who summited all 14 of the world's 8,000m peaks in record time with Project Possible.",
+    description: "Giving up is not in the blood sir",
     domain: "nimsdai.com",
     url: "https://nimsdai.com",
     category: "People",
