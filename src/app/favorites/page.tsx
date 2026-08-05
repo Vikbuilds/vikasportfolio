@@ -23,7 +23,7 @@ const categories = [
   "Products",
 ] as const;
 
-// Memoized Individual Row Component to prevent full-list re-renders on hover
+// Memoized Individual Row Component
 const FavoriteRow = React.memo(function FavoriteRow({
   item,
   index,
@@ -41,8 +41,6 @@ const FavoriteRow = React.memo(function FavoriteRow({
 }) {
   const [imageError, setImageError] = useState(false);
   const previewImg = item.coverImage || item.ogImage;
-  const isLocalIcon = item.icon?.startsWith("/");
-  const isLocalPreview = previewImg?.startsWith("/");
 
   return (
     <motion.a
@@ -71,9 +69,9 @@ const FavoriteRow = React.memo(function FavoriteRow({
             exit={{ opacity: 0, scale: 0.95, x: -8 }}
             transition={{
               type: "spring",
-              stiffness: 420,
-              damping: 32,
-              mass: 0.7,
+              stiffness: 450,
+              damping: 30,
+              mass: 0.6,
             }}
             className="pointer-events-none absolute -left-[275px] top-1/2 -translate-y-1/2 z-40 hidden xl:block w-64 overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-1.5 shadow-2xl backdrop-blur-md gpu-accelerate"
           >
@@ -83,10 +81,9 @@ const FavoriteRow = React.memo(function FavoriteRow({
                   src={previewImg}
                   alt={item.title}
                   fill
-                  className="object-cover object-top transition-opacity duration-200"
+                  className="object-cover object-top"
                   sizes="256px"
-                  priority={index < 4}
-                  unoptimized={!isLocalPreview}
+                  priority
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-gradient-to-br from-muted/80 to-muted/40 text-muted-foreground select-none">
@@ -112,7 +109,7 @@ const FavoriteRow = React.memo(function FavoriteRow({
               height={24}
               className="h-full w-full object-cover"
               onError={() => setImageError(true)}
-              unoptimized={!isLocalIcon}
+              priority
             />
           ) : item.coverImage ? (
             <Image
@@ -121,7 +118,7 @@ const FavoriteRow = React.memo(function FavoriteRow({
               width={24}
               height={24}
               className="h-full w-full object-cover"
-              unoptimized={!item.coverImage.startsWith("/")}
+              priority
             />
           ) : item.category === "Books" ? (
             <BookOpen size={13} className="text-muted-foreground" />
@@ -201,10 +198,10 @@ function FavoritesContent() {
     });
   }, [searchQuery, selectedCategory]);
 
-  // Preload preview images for all filtered items so hover is instant
+  // Preload all favorite local images into browser memory immediately on render
   useEffect(() => {
     if (typeof window === "undefined") return;
-    filteredFavorites.forEach((item) => {
+    favorites.forEach((item) => {
       const src = item.coverImage || item.ogImage;
       if (src) {
         const img = new window.Image();
@@ -215,7 +212,7 @@ function FavoritesContent() {
         iconImg.src = item.icon;
       }
     });
-  }, [filteredFavorites]);
+  }, []);
 
   const handleMouseEnter = useCallback((id: string) => {
     setHoveredId(id);

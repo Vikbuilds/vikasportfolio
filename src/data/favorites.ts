@@ -21,7 +21,8 @@ export const favorites: FavoriteItem[] = [
     domain: "jamesclear.com",
     url: "https://jamesclear.com/atomic-habits",
     category: "Books",
-    coverImage: "https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg",
+    coverImage: "/favorites/atomic-habits-cover.jpg",
+    ogImage: "/favorites/atomic-habits-cover.jpg",
   },
   {
     id: "zero-to-one",
@@ -31,7 +32,8 @@ export const favorites: FavoriteItem[] = [
     domain: "paypal.com",
     url: "https://www.paypal.com/",
     category: "Books",
-    coverImage: "https://covers.openlibrary.org/b/isbn/9780804139298-L.jpg",
+    coverImage: "/favorites/zero-to-one-cover.jpg",
+    ogImage: "/favorites/zero-to-one-cover.jpg",
   },
   {
     id: "robin-williams",
@@ -64,8 +66,8 @@ export const favorites: FavoriteItem[] = [
     domain: "vercel.com",
     url: "https://vercel.com",
     category: "Tools",
-    icon: "https://www.google.com/s2/favicons?domain=vercel.com&sz=64",
-    ogImage: "https://lishhsx6kmthaacj.public.blob.vercel-storage.com/og-home-not-x.png",
+    icon: "/favorites/vercel-icon.png",
+    ogImage: "/favorites/vercel-og.png",
   },
   {
     id: "claude",
@@ -74,8 +76,8 @@ export const favorites: FavoriteItem[] = [
     domain: "claude.ai",
     url: "https://claude.ai",
     category: "Tools",
-    icon: "https://www.google.com/s2/favicons?domain=claude.ai&sz=64",
-    ogImage: "https://cdn.prod.website-files.com/6889473510b50328dbb70ae6/68c469d23594abeb9ab6ee48_70ed020ecf8fa028b9bc95fa819720b6_og_claude-generic.jpg",
+    icon: "/favorites/claude-icon.png",
+    ogImage: "/favorites/claude-og.jpg",
   },
   {
     id: "antigravity",
@@ -85,7 +87,7 @@ export const favorites: FavoriteItem[] = [
     url: "https://antigravity.google/",
     category: "Tools",
     icon: "/favorites/antigravity.png",
-    ogImage: "https://antigravity.google/assets/image/sitecards/sitecard-default.png",
+    ogImage: "/favorites/antigravity-og.png",
   },
   {
     id: "dead-poets-society",
@@ -120,8 +122,7 @@ export const favorites: FavoriteItem[] = [
     url: "https://www.imdb.com/title/tt14013400/",
     category: "Movies",
     icon: "/favorites/movies/nimsdai-icon.png",
-    coverImage: "https://upload.wikimedia.org/wikipedia/en/e/ed/14_Peaks-_Nothing_Is_Impossible.jpg",
-    ogImage: "https://upload.wikimedia.org/wikipedia/en/e/ed/14_Peaks-_Nothing_Is_Impossible.jpg",
+    coverImage: "/favorites/14-peaks-cover.jpg",
+    ogImage: "/favorites/14-peaks-cover.jpg",
   },
 ];
-
