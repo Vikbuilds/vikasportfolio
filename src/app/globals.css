@@ -281,3 +281,9 @@ body {
 .font-private-mono {
   font-family: "Berkeley Mono", ui-monospace, monospace;
 }
+
+.gpu-accelerate {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

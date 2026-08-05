@@ -3,23 +3,39 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, X, Calendar } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
-import { photos, type PhotoItem } from "@/data/photos";
+import { photos } from "@/data/photos";
+import { OrbitalImageWheel } from "@/components/unlumen-ui/orbital-image-wheel";
 
 export default function VisualsPage() {
-  const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  // Close modal on Escape key
+  // Map photos data to OrbitalImageWheel format
+  const orbitalImages = photos.map((photo) => ({
+    src: photo.src,
+    alt: photo.title,
+    label: photo.title,
+    subtitle: photo.location
+      ? `${photo.location} · ${photo.date || ""}`
+      : photo.date || "Visual Journal",
+    location: photo.location,
+    date: photo.date,
+    id: photo.id,
+  }));
+
+  // Keyboard Escape listener to close full screen wheel
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActivePhoto(null);
+      if (activeIndex === null) return;
+      if (e.key === "Escape") setActiveIndex(null);
     };
+
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [activeIndex]);
 
   return (
     <>
@@ -37,11 +53,11 @@ export default function VisualsPage() {
               Visuals by Vik
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Moments, light, and perspective captured through my lens. An ongoing visual journal of places and details.
+              Moments, light, and perspective captured through my lens. Click any photo below to enter the interactive orbital wheel view.
             </p>
           </motion.div>
 
-          {/* Masonry Photography Grid - Preserving Original Photo Aspect Ratios */}
+          {/* Masonry Photography Grid */}
           <div className="columns-1 sm:columns-2 gap-3.5 pt-2 space-y-3.5">
             {photos.map((photo, index) => (
               <motion.div
@@ -54,7 +70,7 @@ export default function VisualsPage() {
                   delay: Math.min(index * 0.05, 0.25),
                   ease: "easeOut",
                 }}
-                onClick={() => setActivePhoto(photo)}
+                onClick={() => setActiveIndex(index)}
                 className="group relative cursor-pointer overflow-hidden rounded-2xl border border-border/40 bg-card/40 shadow-xs hover:border-border/80 transition-all duration-300 break-inside-avoid"
               >
                 <Image
@@ -75,10 +91,12 @@ export default function VisualsPage() {
                   <p className="font-semibold text-xs leading-snug drop-shadow-md">
                     {photo.title}
                   </p>
-                  <div className="flex items-center gap-1.5 text-[10px] text-white/80 font-mono">
-                    <MapPin size={10} className="shrink-0" />
-                    <span>{photo.location}</span>
-                  </div>
+                  {photo.location && (
+                    <div className="flex items-center gap-1.5 text-[10px] text-white/80 font-mono">
+                      <MapPin size={10} className="shrink-0" />
+                      <span>{photo.location}</span>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -86,66 +104,30 @@ export default function VisualsPage() {
         </div>
       </main>
 
-      {/* Lightbox Preview Modal */}
+      {/* Orbital Image Wheel Fullscreen Viewer replacing old modal */}
       <AnimatePresence>
-        {activePhoto && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 select-none">
-            {/* Backdrop Blur */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setActivePhoto(null)}
-              className="absolute inset-0 bg-background/85 backdrop-blur-xl"
+        {activeIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[200] bg-black overflow-hidden"
+          >
+            <OrbitalImageWheel
+              images={orbitalImages}
+              initialIndex={activeIndex}
+              onClose={() => setActiveIndex(null)}
+              turns={2.4}
+              cropRatio={0.7}
+              itemWidth={250}
+              itemHeight={330}
+              showCaption={true}
+              subtitleDirection="top"
+              subtitleSpeed={1.25}
+              subtitleStagger={0.014}
             />
-
-            {/* Modal Card */}
-            <motion.div
-              layoutId={`bento-photo-${activePhoto.id}`}
-              className="relative z-10 w-full max-w-xl overflow-hidden rounded-3xl border border-border/60 bg-popover/95 shadow-2xl backdrop-blur-md"
-            >
-              {/* Close Button */}
-              <button
-                onClick={() => setActivePhoto(null)}
-                aria-label="Close photo preview"
-                className="absolute top-3 right-3 z-30 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur-md border border-border/50 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-              >
-                <X size={16} />
-              </button>
-
-              {/* Full Original Image View */}
-              <div className="relative w-full max-h-[75vh] flex items-center justify-center bg-black/95 overflow-hidden p-2">
-                <Image
-                  src={activePhoto.src}
-                  alt={activePhoto.title}
-                  width={1200}
-                  height={1600}
-                  className="max-h-[75vh] w-auto h-auto object-contain rounded-xl"
-                  unoptimized
-                />
-              </div>
-
-              {/* Minimal Meta */}
-              <div className="p-4 sm:p-4.5 flex items-center justify-between gap-4">
-                <div>
-                  <h2 className="text-sm font-semibold text-foreground tracking-tight">
-                    {activePhoto.title}
-                  </h2>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
-                    <span className="flex items-center gap-1 font-mono text-[11px]">
-                      <MapPin size={11} className="text-muted-foreground" />
-                      {activePhoto.location}
-                    </span>
-                    <span>·</span>
-                    <span className="flex items-center gap-1 font-mono text-[11px]">
-                      <Calendar size={11} />
-                      {activePhoto.date}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
