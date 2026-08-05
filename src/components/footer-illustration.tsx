@@ -61,16 +61,30 @@ export function FooterIllustration() {
     setPaws((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const handlePasscodeSubmit = (e: React.FormEvent) => {
+  const handlePasscodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const normalizedInput = modalPassword.trim().toLowerCase().replace(/\s+/g, " ");
-    if (normalizedInput === "radhe radhe") {
-      sessionStorage.setItem("private_space_unlocked", "true");
-      setIsPasscodeModalOpen(false);
-      router.push("/private");
-    } else {
+    if (!modalPassword.trim()) return;
+
+    try {
+      const res = await fetch("/api/private-space/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: modalPassword }),
+      });
+
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setIsPasscodeModalOpen(false);
+        setModalPassword("");
+        setModalError(false);
+        router.push("/private");
+      } else {
+        setModalError(true);
+        setTimeout(() => setModalError(false), 2500);
+      }
+    } catch {
       setModalError(true);
-      setTimeout(() => setModalError(false), 2000);
+      setTimeout(() => setModalError(false), 2500);
     }
   };
 
