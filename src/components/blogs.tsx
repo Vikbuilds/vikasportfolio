@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight, Calendar } from "lucide-react";
 import { blogs } from "@/data/blogs";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
@@ -12,7 +11,7 @@ export function Blogs() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="blogs" className="space-y-6 scroll-mt-24">
+    <section id="writings" className="space-y-6 scroll-mt-24">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -20,7 +19,7 @@ export function Blogs() {
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
         <h2 className="text-xl font-semibold tracking-tight text-foreground">
-          Blogs
+          Writings
         </h2>
         <p className="mt-1 text-md text-muted-foreground font-(family-name:--font-baloo)">
           Writing about code, architecture, and lessons learned.
@@ -38,10 +37,9 @@ export function Blogs() {
             className="relative"
             onMouseEnter={() => setHoveredIndex(i)}
             onMouseLeave={() => setHoveredIndex(null)}
-            onTouchStart={() => setHoveredIndex(hoveredIndex === i ? null : i)}
           >
             <Link
-              href={`/blog/${blog.slug}`}
+              href={`/writings/${blog.slug}`}
               className={`group flex flex-col gap-2 rounded-xl p-5 transition-all duration-300 ${
                 hoveredIndex !== null && hoveredIndex !== i
                   ? "opacity-35 blur-[2.5px]"
@@ -82,27 +80,6 @@ export function Blogs() {
                 <span>{blog.readTime}</span>
               </div>
             </Link>
-
-            {/* Floating thumbnail on hover / touch */}
-            <AnimatePresence>
-              {hoveredIndex === i && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="pointer-events-none absolute bottom-3 right-3 sm:right-4 z-20 overflow-hidden rounded-lg border border-border shadow-lg max-w-[130px] sm:max-w-none"
-                >
-                  <Image
-                    src={blog.thumbnail}
-                    alt={blog.title}
-                    width={200}
-                    height={112}
-                    className="object-cover"
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
         ))}
       </div>

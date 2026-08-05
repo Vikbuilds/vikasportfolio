@@ -169,11 +169,11 @@ export function CommandPalette() {
                   </Command.Item>
 
                   <Command.Item
-                    onSelect={() => runCommand(() => router.push("/blog"))}
+                    onSelect={() => runCommand(() => router.push("/writings"))}
                     className="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm text-foreground hover:bg-muted/60 data-[selected=true]:bg-muted/80 transition-colors"
                   >
                     <BookOpen size={16} className="text-muted-foreground" />
-                    <span>Blogs & Articles</span>
+                    <span>Writings & Articles</span>
                   </Command.Item>
 
                   <Command.Item

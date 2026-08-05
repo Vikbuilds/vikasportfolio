@@ -11,7 +11,6 @@ import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 import { favorites, FavoriteItem } from "@/data/favorites";
 
 const categories = [
-  "Most Fav",
   "All Time",
   "Books",
   "Movies",
@@ -162,22 +161,18 @@ const FavoriteRow = React.memo(function FavoriteRow({
 
 function FavoritesContent() {
   const searchParams = useSearchParams();
-  const initialCategory = searchParams?.get("category") || "Most Fav";
+  const initialCategory = searchParams?.get("category") || "All Time";
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    categories.includes(initialCategory as (typeof categories)[number]) ? initialCategory : "All Time"
+  );
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   useEffect(() => {
     const cat = searchParams?.get("category");
-    if (cat) {
-      if (cat === "Most Fav") {
-        setSelectedCategory("Most Fav");
-      } else if (cat === "All" || cat === "All Time") {
-        setSelectedCategory("All Time");
-      } else if (categories.includes(cat as (typeof categories)[number])) {
-        setSelectedCategory(cat);
-      }
+    if (cat && categories.includes(cat as (typeof categories)[number])) {
+      setSelectedCategory(cat);
     }
   }, [searchParams]);
 
@@ -186,8 +181,6 @@ function FavoritesContent() {
       const matchesCategory =
         selectedCategory === "All Time" || selectedCategory === "All"
           ? true
-          : selectedCategory === "Most Fav"
-          ? Boolean(item.isMostFav)
           : item.category === selectedCategory;
       const matchesSearch =
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -223,7 +216,7 @@ function FavoritesContent() {
   }, []);
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-5 pb-20 pt-8">
+    <main className="mx-auto w-full max-w-xl px-5 pb-20 pt-8">
       <div className="space-y-6">
         {/* Header & Bio */}
         <motion.div
@@ -306,7 +299,7 @@ function FavoritesContent() {
                 animate={{ opacity: 1 }}
                 className="py-12 text-center text-sm text-muted-foreground"
               >
-                No items found matching &quot;{searchQuery}&quot;.
+                No favorites found matching your criteria.
               </motion.div>
             )}
           </AnimatePresence>
@@ -324,7 +317,7 @@ export default function FavoritesPage() {
         <FavoritesContent />
       </Suspense>
 
-      <div className="mx-auto w-full max-w-2xl px-5 pb-16">
+      <div className="mx-auto w-full max-w-xl px-5 pb-16">
         <Footer />
       </div>
 

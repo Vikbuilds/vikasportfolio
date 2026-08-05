@@ -17,12 +17,12 @@ import {
 const navLinks = [
   { label: "Home", href: "/", id: "/" },
   { label: "Work", href: "/#work", id: "/#work" },
-  { label: "Blogs", href: "/#blogs", id: "/#blogs" },
+  { label: "Writings", href: "/#writings", id: "/#writings" },
   { label: "Visuals", href: "/visuals", id: "/visuals" },
-  { label: "Favorites", href: "/favorites", id: "/favorites" },
+  { label: "Fav", href: "/favorites", id: "/favorites" },
 ];
 
-/** Isolated NavLinks component: owns scroll-spy & ultra-stable persistent liquid glass pill animation */
+/** Isolated NavLinks component: owns scroll-spy & persistent liquid glass pill animation */
 const NavLinksGroup = memo(function NavLinksGroup() {
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState<string>("/");
@@ -42,8 +42,8 @@ const NavLinksGroup = memo(function NavLinksGroup() {
 
   useEffect(() => {
     if (pathname !== "/") {
-      if (pathname.startsWith("/blog")) {
-        setActiveTab("/#blogs");
+      if (pathname.startsWith("/writings") || pathname.startsWith("/blog")) {
+        setActiveTab("/#writings");
       } else if (pathname.startsWith("/visuals")) {
         setActiveTab("/visuals");
       } else if (pathname.startsWith("/favorites")) {
@@ -58,11 +58,11 @@ const NavLinksGroup = memo(function NavLinksGroup() {
 
     const handleScroll = () => {
       const workEl = document.getElementById("work");
-      const blogsEl = document.getElementById("blogs");
+      const writingsEl = document.getElementById("writings") || document.getElementById("blogs");
       const scrollPosition = window.scrollY + 220;
 
-      if (blogsEl && scrollPosition >= blogsEl.offsetTop) {
-        setActiveTab("/#blogs");
+      if (writingsEl && scrollPosition >= writingsEl.offsetTop) {
+        setActiveTab("/#writings");
       } else if (workEl && scrollPosition >= workEl.offsetTop) {
         setActiveTab("/#work");
       } else {
@@ -160,7 +160,7 @@ const NavLinksGroup = memo(function NavLinksGroup() {
   );
 });
 
-/** Isolated NavbarActions component: completely static, zero re-renders on scroll */
+/** Isolated NavbarActions component */
 const NavbarActions = memo(function NavbarActions() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -193,20 +193,30 @@ const NavbarActions = memo(function NavbarActions() {
   }, []);
 
   return (
-    <div className="flex items-center gap-2 shrink-0">
-      {/* Command Palette Trigger Button */}
-      <button
-        onClick={openPalette}
-        type="button"
-        className="flex items-center gap-1.5 rounded-xl border border-border/50 bg-muted/40 px-3 py-1 text-xs text-muted-foreground transition-all duration-200 hover:border-border hover:bg-muted/70 hover:text-foreground"
-        aria-label="Open Command Palette"
-      >
-        <Search size={13} />
-        <span className="hidden sm:inline font-medium">Search</span>
-        <kbd className="font-mono text-[10px] bg-background/80 px-1.5 py-0.5 rounded-md border border-border/40 text-muted-foreground">
-          ⌘K
-        </kbd>
-      </button>
+    <div className="flex items-center gap-1.5 shrink-0">
+      {/* Icon-Only Command Palette Search Button */}
+      {mounted && (
+        <TooltipProvider delay={300}>
+          <Tooltip>
+            <TooltipTrigger
+              render={(triggerProps) => (
+                <button
+                  {...triggerProps}
+                  onClick={openPalette}
+                  type="button"
+                  aria-label="Search (⌘K)"
+                  className="cursor-pointer flex items-center justify-center p-1.5 rounded-xl text-muted-foreground hover:text-foreground/80 hover:bg-muted/50 transition-colors"
+                >
+                  <Search size={15} />
+                </button>
+              )}
+            />
+            <TooltipContent side="bottom" className="text-xs" sideOffset={8}>
+              Search (⌘K)
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
 
       {/* Theme Toggler */}
       {mounted && (
@@ -235,7 +245,7 @@ const NavbarActions = memo(function NavbarActions() {
 export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full flex justify-center pointer-events-none mb-4 py-3 bg-background/80 backdrop-blur-md border-b border-border/40 transition-all duration-300">
-      <nav className="pointer-events-auto flex items-center justify-between gap-3 w-full max-w-2xl px-5">
+      <nav className="pointer-events-auto flex items-center justify-between gap-3 w-full max-w-xl px-5">
         <NavLinksGroup />
         <NavbarActions />
       </nav>

@@ -23,6 +23,7 @@ export default function VisualsPage() {
       : photo.date || "Visual Journal",
     location: photo.location,
     date: photo.date,
+    story: photo.story,
     id: photo.id,
   }));
 
@@ -40,7 +41,7 @@ export default function VisualsPage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto w-full max-w-2xl px-5 pb-20 pt-8">
+      <main className="mx-auto w-full max-w-xl px-5 pb-20 pt-8">
         <div className="space-y-6">
           {/* Header */}
           <motion.div
@@ -112,7 +113,7 @@ export default function VisualsPage() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[200] bg-black overflow-hidden"
+            className="fixed inset-0 z-[200] bg-background overflow-hidden"
           >
             <OrbitalImageWheel
               images={orbitalImages}
@@ -131,7 +132,7 @@ export default function VisualsPage() {
         )}
       </AnimatePresence>
 
-      <div className="mx-auto w-full max-w-2xl px-5 pb-16">
+      <div className="mx-auto w-full max-w-xl px-5 pb-16">
         <Footer />
       </div>
 

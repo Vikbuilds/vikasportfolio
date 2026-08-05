@@ -264,7 +264,7 @@ export function BlogContent({ blog }: { blog: Blog }) {
       {/* ScrollProgress with sections — z-[200] so it stays above progressive blur (z-30) */}
       <ScrollProgress className="z-200" sections={sections} />
 
-      <main className="mx-auto w-full max-w-2xl px-5 pb-20 pt-6">
+      <main className="mx-auto w-full max-w-xl px-5 pb-20 pt-6">
         <motion.div
           className="space-y-6"
           initial={{ opacity: 0, y: 12 }}
@@ -274,11 +274,11 @@ export function BlogContent({ blog }: { blog: Blog }) {
           {/* Back button — Undo2 icon */}
           <div>
             <Link
-              href="/blog"
+              href="/writings"
               className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors duration-200 hover:text-foreground mb-3 font-mono"
             >
               <Undo2 size={14} />
-              Back to blogs
+              Back to writings
             </Link>
           </div>
 
@@ -338,7 +338,7 @@ export function BlogContent({ blog }: { blog: Blog }) {
         </motion.div>
       </main>
 
-      <div className="mx-auto w-full max-w-2xl px-5 pb-16">
+      <div className="mx-auto w-full max-w-xl px-5 pb-16">
         <Footer />
       </div>
 

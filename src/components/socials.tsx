@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Tooltip,
@@ -68,48 +67,6 @@ const item = {
 };
 
 export function Socials() {
-  const [timeString, setTimeString] = useState<string>("");
-  const [visits, setVisits] = useState<number>(8144);
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const formatted = now.toLocaleTimeString("en-US", {
-        timeZone: "Asia/Kolkata",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-      });
-      setTimeString(formatted);
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Fetch live real-time visitor count
-  useEffect(() => {
-    const fetchVisits = async () => {
-      try {
-        const res = await fetch("/api/visitors");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.visits) {
-            setVisits(data.visits);
-          }
-        }
-      } catch {
-        // Retain count
-      }
-    };
-
-    fetchVisits();
-    const interval = setInterval(fetchVisits, 15000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <motion.section
       initial={{ opacity: 0, y: 16 }}
@@ -117,7 +74,7 @@ export function Socials() {
       transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
       className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
     >
-      {/* Left: Social Icons */}
+      {/* Social Icons */}
       <TooltipProvider delay={100}>
         <motion.div
           className="flex flex-wrap items-center gap-1"
@@ -159,27 +116,18 @@ export function Socials() {
         </motion.div>
       </TooltipProvider>
 
-      {/* Right: Live Running Timestamp & Realtime Visitors */}
+      {/* Location Badge */}
       <motion.div
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.3 }}
-        className="flex flex-col sm:items-end gap-0.5 text-xs text-muted-foreground/75 font-sans select-none shrink-0"
+        className="flex items-center gap-2 text-xs text-muted-foreground/75 font-sans select-none shrink-0"
       >
-        <div className="flex items-center gap-2 font-mono text-[13px] text-muted-foreground/90 font-medium tracking-tight">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span>{timeString ? `${timeString} IST` : "10:12:32 PM IST"}</span>
-        </div>
-        <div className="flex items-center gap-1.5 text-muted-foreground/60 text-xs sm:text-right font-sans flex-wrap justify-start sm:justify-end">
-          <span>Bengaluru, India</span>
-          <span className="text-muted-foreground/40">·</span>
-          <span className="font-mono text-muted-foreground/80 font-medium">
-            {visits.toLocaleString()} visits
-          </span>
-        </div>
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span>Bengaluru, India</span>
       </motion.div>
     </motion.section>
   );

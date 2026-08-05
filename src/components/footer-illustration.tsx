@@ -61,30 +61,16 @@ export function FooterIllustration() {
     setPaws((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const handlePasscodeSubmit = async (e: React.FormEvent) => {
+  const handlePasscodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!modalPassword.trim()) return;
-
-    try {
-      const res = await fetch("/api/private-space/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: modalPassword }),
-      });
-
-      const json = await res.json();
-      if (res.ok && json.success) {
-        setIsPasscodeModalOpen(false);
-        setModalPassword("");
-        setModalError(false);
-        router.push("/private");
-      } else {
-        setModalError(true);
-        setTimeout(() => setModalError(false), 2500);
-      }
-    } catch {
+    const normalizedInput = modalPassword.trim().toLowerCase().replace(/\s+/g, " ");
+    if (normalizedInput === "kridha") {
+      sessionStorage.setItem("private_space_unlocked", "true");
+      setIsPasscodeModalOpen(false);
+      router.push("/private");
+    } else {
       setModalError(true);
-      setTimeout(() => setModalError(false), 2500);
+      setTimeout(() => setModalError(false), 2000);
     }
   };
 
@@ -141,7 +127,7 @@ export function FooterIllustration() {
       <section aria-label="Illustration of Vikas coding at desk with Kiddu the cat" className="relative w-full max-w-[380px] sm:max-w-[420px] mx-auto my-2 px-2">
         {/* Simple Minimal Arrow Cue pointing to Bookshelf */}
         <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 pointer-events-none flex items-center gap-1 text-[11px] font-mono text-muted-foreground/60 select-none">
-          <span>Explore books</span>
+          <span>interact</span>
           <motion.span
             animate={{ y: [0, 2, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}

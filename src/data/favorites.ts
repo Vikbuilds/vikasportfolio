@@ -9,7 +9,6 @@ export interface FavoriteItem {
   icon?: string;
   ogImage?: string;
   coverImage?: string;
-  isMostFav?: boolean;
 }
 
 export const favorites: FavoriteItem[] = [
@@ -45,7 +44,6 @@ export const favorites: FavoriteItem[] = [
     icon: "/favorites/robin-williams-icon.png",
     coverImage: "/favorites/robin-williams-cover.jpg",
     ogImage: "/favorites/robin-williams-cover.jpg",
-    isMostFav: true,
   },
   {
     id: "nimsdai-purja",
@@ -57,7 +55,6 @@ export const favorites: FavoriteItem[] = [
     icon: "/favorites/nimsdai-cover.jpg",
     coverImage: "/favorites/nimsdai-cover.jpg",
     ogImage: "/favorites/nimsdai-cover.jpg",
-    isMostFav: true,
   },
   {
     id: "vercel",
