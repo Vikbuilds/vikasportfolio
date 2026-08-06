@@ -54,7 +54,7 @@ export default function VisualsPage() {
               Visuals by Vik
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Moments, light, and perspective captured through my lens. Click any photo below to enter the interactive orbital wheel view.
+              Moments, light, and perspective captured through my lens. An ongoing visual journal of places and details.
             </p>
           </motion.div>
 
@@ -80,7 +80,7 @@ export default function VisualsPage() {
                   width={800}
                   height={1000}
                   sizes="(max-width: 640px) 100vw, 400px"
-                  className="w-full h-auto block grayscale-0 sm:grayscale sm:contrast-[1.05] transition-all duration-500 sm:group-hover:grayscale-0 group-hover:scale-[1.03]"
+                  className="w-full h-auto block grayscale contrast-[1.05] transition-all duration-500 group-hover:grayscale-0 active:grayscale-0 group-hover:scale-[1.03]"
                   unoptimized
                 />
 

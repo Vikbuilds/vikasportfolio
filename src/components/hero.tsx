@@ -3,18 +3,6 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FileText, ArrowUpRight } from "lucide-react";
-import { MorphingText } from "@/components/ui/morphing-text";
-
-const heroTexts = [
-  "Software Engineer for Web & Mobile",
-  "Full Stack Developer",
-  "Polymath",
-  "Open Source Contributor",
-  "Freelancer",
-  "Otaku",
-  "Product Engineer",
-];
-
 export function Hero() {
   return (
     <motion.section
@@ -38,13 +26,6 @@ export function Hero() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground font-(family-name:--font-schibsted)">
           Vikas Acharya
         </h1>
-
-        <div className="h-6 relative overflow-hidden">
-          <MorphingText
-            texts={heroTexts}
-            className="h-6 text-sm text-muted-foreground font-medium text-left mx-0 max-w-none filter-[url(#threshold)_blur(0.3px)] leading-6"
-          />
-        </div>
 
         {/* Minimal Open to Work / Resume Row */}
         <div className="pt-1 flex items-center gap-2 text-xs font-medium text-muted-foreground select-none">

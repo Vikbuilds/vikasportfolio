@@ -115,20 +115,6 @@ export function Socials() {
           })}
         </motion.div>
       </TooltipProvider>
-
-      {/* Location Badge */}
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.3 }}
-        className="flex items-center gap-2 text-xs text-muted-foreground/75 font-sans select-none shrink-0"
-      >
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        <span>Bengaluru, India</span>
-      </motion.div>
     </motion.section>
   );
 }

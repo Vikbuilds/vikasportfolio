@@ -27,14 +27,12 @@ const FavoriteRow = React.memo(function FavoriteRow({
   item,
   index,
   isHovered,
-  isOtherHovered,
   onMouseEnter,
   onMouseLeave,
 }: {
   item: FavoriteItem;
   index: number;
   isHovered: boolean;
-  isOtherHovered: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) {
@@ -50,7 +48,7 @@ const FavoriteRow = React.memo(function FavoriteRow({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: isOtherHovered ? 0.55 : 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.98 }}
       transition={{
         duration: 0.22,
@@ -288,7 +286,6 @@ function FavoritesContent() {
                   item={item}
                   index={index}
                   isHovered={hoveredId === item.id}
-                  isOtherHovered={hoveredId !== null && hoveredId !== item.id}
                   onMouseEnter={() => handleMouseEnter(item.id)}
                   onMouseLeave={handleMouseLeave}
                 />
