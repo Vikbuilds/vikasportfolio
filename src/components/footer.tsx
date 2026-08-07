@@ -30,18 +30,6 @@ export function Footer() {
             Report a bug
           </a>
         </div>
-        <p className="text-[11px] text-muted-foreground/50">
-          Source code is available at{" "}
-          <a
-            className="text-foreground link-underline"
-            href="https://github.com/Vikbuilds/Portfolio"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-          .
-        </p>
       </div>
     </footer>
   );

@@ -23,19 +23,28 @@ const baloo = Baloo_Bhaijaan_2({
 });
 
 export const metadata: Metadata = {
-  title: "Vikas Acharya | Software Engineer",
+  title: "Vikas Acharya",
   description:
     "Software builder and fullstack developer crafting robust applications for the web and mobile. Explore my projects, blog, and open-source contributions.",
   openGraph: {
-    title: "Vikas Acharya | Software Engineer",
+    title: "Vikas Acharya",
     description:
       "Software builder and fullstack developer crafting robust applications for the web and mobile.",
     type: "website",
     url: "https://vikasacharya.dev",
+    images: [
+      {
+        url: "/api/og",
+        width: 1200,
+        height: 630,
+        alt: "Vikas Acharya — Design, Engineering & Human Taste",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     creator: "@VikasAcharyaa",
+    images: ["/api/og"],
   },
 };
 
