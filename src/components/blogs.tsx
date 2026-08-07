@@ -22,7 +22,7 @@ export function Blogs() {
           Writings
         </h2>
         <p className="mt-1 text-md text-muted-foreground font-(family-name:--font-baloo)">
-          Writing about code, architecture, and lessons learned.
+          Writing about whatever I know, learn, and experience in life.
         </p>
       </motion.div>
 

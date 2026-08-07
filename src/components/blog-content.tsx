@@ -283,16 +283,18 @@ export function BlogContent({ blog }: { blog: Blog }) {
           </div>
 
           {/* Thumbnail */}
-          <div className="overflow-hidden rounded-xl">
-            <Image
-              src={blog.thumbnail}
-              alt={blog.title}
-              width={768}
-              height={432}
-              className="w-full object-cover"
-              priority
-            />
-          </div>
+          {blog.thumbnail ? (
+            <div className="overflow-hidden rounded-xl">
+              <Image
+                src={blog.thumbnail}
+                alt={blog.title}
+                width={768}
+                height={432}
+                className="w-full object-cover"
+                priority
+              />
+            </div>
+          ) : null}
 
           {/* Title + meta */}
           <div className="space-y-2">

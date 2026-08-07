@@ -27,7 +27,7 @@ export default function WritingsListPage() {
               Writings
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Writing about code, architecture, and lessons learned along the way.
+              Writing about whatever I know, learn, and experience in life.
             </p>
           </motion.div>
 

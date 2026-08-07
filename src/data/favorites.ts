@@ -122,4 +122,16 @@ export const favorites: FavoriteItem[] = [
     coverImage: "/favorites/14-peaks-cover.jpg",
     ogImage: "/favorites/14-peaks-cover.jpg",
   },
+  {
+    id: "ship-of-theseus",
+    title: "Ship of Theseus",
+    author: "Anand Gandhi",
+    description: "Explores questions of identity, justice, beauty, meaning and death through three philosophical stories.",
+    domain: "imdb.com",
+    url: "https://www.imdb.com/title/tt1800310/",
+    category: "Movies",
+    icon: "/favorites/movies/ship-of-theseus.jpg",
+    coverImage: "/favorites/movies/ship-of-theseus.jpg",
+    ogImage: "/favorites/movies/ship-of-theseus.jpg",
+  },
 ];
