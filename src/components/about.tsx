@@ -23,7 +23,7 @@ export function About() {
           I started out studying{" "}
           <span className="text-foreground font-medium">Bachelors in Computer Applications</span>,
           but I quickly realized that staring at textbooks wasn’t going to cut it. I learned way
-          faster by actually getting my hands dirty—building random things, breaking them,
+          faster by actually getting my hands dirty - building random things, breaking them,
           figuring out why they broke, and putting stuff out on the internet for real people to use.
         </>
       ),
@@ -44,6 +44,21 @@ export function About() {
       ),
     },
     {
+      id: "community",
+      content: (
+        <>
+          Somewhere in the middle of all this, I noticed something that bothered me - my college
+          had zero culture around building things. No mentors, no hackathons, just textbooks and
+          exams. I could see where that was heading: talented people finishing four years having
+          built nothing, while people at bigger colleges had all of it handed to them. So I started{" "}
+          <span className="text-foreground font-medium">Builtby.BCA</span> - brought in industry
+          mentors, ran hackathons and technical sprints, built the ecosystem that should&apos;ve
+          existed already. It&apos;s still running today, and it&apos;s proof that where you
+          studied has very little to do with what you&apos;re capable of building.
+        </>
+      ),
+    },
+    {
       id: "philosophy",
       content: (
         <>
@@ -60,9 +75,11 @@ export function About() {
       id: "conclusion",
       content: (
         <>
-          I also like writing about the messy parts of this journey—what works, what totally fails,
-          and what I&apos;m figuring out along the way. When I&apos;m away from the screen, I&apos;m
-          usually keeping my mind sharp with classical stuff or just exploring.
+          I also like writing about the messy parts of this journey - what works, what totally fails,
+          and what I&apos;m figuring out along the way. At the core of it all, I try to{" "}
+          <span className="text-foreground font-medium">live by design, not by default</span>. When
+          I&apos;m away from the screen, I&apos;m usually keeping my mind sharp with classical
+          stuff or just exploring.
         </>
       ),
     },
