@@ -17,6 +17,7 @@ import {
   ExternalLink,
   Send,
   User,
+  BookOpen,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
