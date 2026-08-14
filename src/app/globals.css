@@ -274,16 +274,32 @@ body {
   font-family: "FK Grotesk", var(--font-sans), sans-serif;
 }
 
-.font-private-editorial {
+.font-editorial {
   font-family: "PP Editorial", Georgia, serif;
 }
 
-.font-private-mono {
-  font-family: "Berkeley Mono", ui-monospace, monospace;
+@keyframes cursor-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-cursor-blink {
+  animation: cursor-blink 1s step-start infinite;
 }
 
 .gpu-accelerate {
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
+}
+
+/* Hide native OS browser cursor globally so only the custom interactive smooth cursor is visible */
+@media (any-hover: hover) and (any-pointer: fine) {
+  *, *::before, *::after, html, body, button, a, input, textarea {
+    cursor: none !important;
+  }
 }

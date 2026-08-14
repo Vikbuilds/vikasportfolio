@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, Keyboard } from "lucide-react";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import {
   Tooltip,
@@ -170,12 +170,15 @@ const NavbarActions = memo(function NavbarActions() {
 
     function onKeyDown(e: KeyboardEvent) {
       if (
-        e.key === "d" &&
+        (e.key === "d" || e.key === "D") &&
         !e.metaKey &&
         !e.ctrlKey &&
         !e.altKey &&
+        !e.defaultPrevented &&
         !(e.target instanceof HTMLInputElement) &&
-        !(e.target instanceof HTMLTextAreaElement)
+        !(e.target instanceof HTMLTextAreaElement) &&
+        !(e.target as HTMLElement)?.isContentEditable &&
+        !window.location.pathname.startsWith("/keyboard")
       ) {
         document.querySelector<HTMLButtonElement>("[data-theme-toggler]")?.click();
       }
@@ -213,6 +216,29 @@ const NavbarActions = memo(function NavbarActions() {
             />
             <TooltipContent side="bottom" className="text-xs" sideOffset={8}>
               Search (⌘K)
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
+
+      {/* Keyboard Access Icon Button */}
+      {mounted && (
+        <TooltipProvider delay={300}>
+          <Tooltip>
+            <TooltipTrigger
+              render={(triggerProps) => (
+                <Link
+                  {...triggerProps}
+                  href="/keyboard"
+                  aria-label="Interactive Keyboard"
+                  className="cursor-pointer flex items-center justify-center p-1.5 rounded-xl text-muted-foreground hover:text-foreground/80 hover:bg-muted/50 transition-colors"
+                >
+                  <Keyboard size={15} />
+                </Link>
+              )}
+            />
+            <TooltipContent side="bottom" className="text-xs" sideOffset={8}>
+              Interactive Keyboard
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
