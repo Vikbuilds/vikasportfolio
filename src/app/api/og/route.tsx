@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+
+export const runtime = "edge";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -7,40 +9,22 @@ export async function GET(req: NextRequest) {
   const subtitle = searchParams.get("subtitle");
   const category = searchParams.get("category") || "PORTFOLIO";
 
+  // Default request without title -> redirect to static /og-image.png
   if (!title || title === "Vikas Acharya" || title === "vikasacharya") {
-    const ogImageData = await fetch(
-      new URL("../../../../public/og-image.png", import.meta.url)
-    ).then((res) => res.arrayBuffer());
-
-    return new Response(ogImageData, {
-      headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=31536000, immutable",
-      },
-    });
+    return NextResponse.redirect(new URL("/og-image.png", req.url));
   }
 
+  // Dynamic request -> fetch static assets via HTTP origin to avoid bundling them into Edge function JS
+  const origin = req.nextUrl.origin;
   const [pfpData, fkGroteskData, berkeleyMonoData] = await Promise.all([
-    fetch(
-      new URL("../../../../public/pfp.png", import.meta.url)
-    ).then((res) => res.arrayBuffer()),
-    fetch(
-      new URL(
-        "../../../../public/fonts/perplexity/fk-grotesk.ttf",
-        import.meta.url
-      )
-    ).then((res) => res.arrayBuffer()),
-    fetch(
-      new URL(
-        "../../../../public/fonts/perplexity/berkeley-mono.ttf",
-        import.meta.url
-      )
-    ).then((res) => res.arrayBuffer()),
+    fetch(`${origin}/pfp.png`).then((res) => res.arrayBuffer()),
+    fetch(`${origin}/fonts/perplexity/fk-grotesk.ttf`).then((res) => res.arrayBuffer()),
+    fetch(`${origin}/fonts/perplexity/berkeley-mono.ttf`).then((res) => res.arrayBuffer()),
   ]);
 
   const pfpBase64 = `data:image/png;base64,${Buffer.from(pfpData).toString("base64")}`;
 
-  // Dynamic layout for blog posts / writings in white theme
+  // Dynamic layout for blog posts / writings
   return new ImageResponse(
     (
       <div
