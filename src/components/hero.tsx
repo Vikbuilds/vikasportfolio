@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FileText, ArrowUpRight } from "lucide-react";
+
 export function Hero() {
   return (
     <motion.section

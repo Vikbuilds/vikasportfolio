@@ -1,11 +1,13 @@
 import { Bug } from "lucide-react";
 import { FooterIllustration } from "@/components/footer-illustration";
+import { AgeClock } from "@/components/age-clock";
 
 export function Footer() {
   return (
     <footer className="w-full pt-6 pb-8">
       <FooterIllustration />
-      <div className="border-t border-dashed border-border/40 pt-6 flex flex-col items-center gap-1.5 text-center mt-2">
+      <div className="border-t border-dashed border-border/40 pt-6 flex flex-col items-center gap-2 text-center mt-2">
+        <AgeClock className="text-xs" />
         <p className="text-xs text-muted-foreground/70">
           Built by{" "}
           <a

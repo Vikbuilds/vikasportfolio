@@ -71,15 +71,12 @@ export default function RootLayout({
       className={cn(geist.variable, schibstedGrotesk.variable, baloo.variable, "font-sans")}
       suppressHydrationWarning
     >
-      <head>
+      <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
         <Script
-          defer
           src="https://cloud.umami.is/script.js"
           data-website-id="d92f05f0-3cf6-4d7e-b7f2-7066eef3dcad"
           strategy="afterInteractive"
         />
-      </head>
-      <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

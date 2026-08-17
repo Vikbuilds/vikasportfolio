@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, MapPin } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { LocationPopover } from "@/components/location-popover";
 
 export function About() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -118,17 +119,7 @@ export function About() {
         >
           Say hello
         </a>
-        , or meet me in{" "}
-        <a
-          href="https://maps.google.com/?q=Bengaluru,+India"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 align-baseline text-foreground underline decoration-muted-foreground/40 underline-offset-4 hover:decoration-foreground transition-colors group"
-        >
-          <MapPin size={12} className="text-muted-foreground group-hover:text-foreground transition-colors shrink-0 translate-y-[1px]" />
-          <span>Bengaluru, India</span>
-        </a>
-        .
+        , or meet me in <LocationPopover />.
       </p>
 
       {/* Animated Story Content */}
