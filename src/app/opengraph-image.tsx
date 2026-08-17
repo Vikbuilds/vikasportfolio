@@ -110,7 +110,7 @@ export default async function Image() {
               fontFamily: "Berkeley Mono, monospace",
             }}
           >
-            VIKASACHARYA.DEV
+            VIKASACHARYA.ME
           </div>
         </div>
 

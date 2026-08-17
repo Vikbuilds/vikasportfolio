@@ -111,7 +111,7 @@ export async function GET(req: NextRequest) {
               fontFamily: "Berkeley Mono, monospace",
             }}
           >
-            VIKASACHARYA.DEV
+            VIKASACHARYA.ME
           </div>
         </div>
 

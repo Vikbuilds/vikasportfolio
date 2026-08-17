@@ -23,16 +23,26 @@ const baloo = Baloo_Bhaijaan_2({
   variable: "--font-baloo",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vikasacharya.me";
+
 export const metadata: Metadata = {
-  title: "Vikas Acharya",
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "Vikas Acharya",
+    template: "%s | Vikas Acharya",
+  },
   description:
     "Software builder and fullstack developer crafting robust applications for the web and mobile. Explore my projects, blog, and open-source contributions.",
+  alternates: {
+    canonical: "./",
+  },
   openGraph: {
     title: "Vikas Acharya",
     description:
       "Software builder and fullstack developer crafting robust applications for the web and mobile.",
     type: "website",
-    url: "https://vikasacharya.dev",
+    url: baseUrl,
+    siteName: "Vikas Acharya",
     images: [
       {
         url: "/api/og",
