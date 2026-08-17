@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "vikasacharya";
+export const alt = "Vikas Acharya — Software Builder & Developer";
 export const size = {
   width: 1200,
   height: 630,
@@ -11,13 +11,13 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
-  const [pfpData, fkGroteskData, berkeleyMonoData] = await Promise.all([
+  const [pfpData, ppEditorialData, berkeleyMonoData] = await Promise.all([
     fetch(new URL("../../public/pfp.png", import.meta.url)).then((res) =>
       res.arrayBuffer()
     ),
     fetch(
       new URL(
-        "../../public/fonts/perplexity/fk-grotesk.ttf",
+        "../../public/fonts/perplexity/pp-editorial-variable.ttf",
         import.meta.url
       )
     ).then((res) => res.arrayBuffer()),
@@ -38,18 +38,18 @@ export default async function Image() {
           height: "100%",
           width: "100%",
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#FFFFFF",
-          color: "#09090B",
-          padding: "60px",
-          fontFamily: "FK Grotesk, sans-serif",
+          justifyContent: "space-between",
+          backgroundColor: "#0A0A0A",
+          color: "#FAFAFA",
+          padding: "64px 80px",
+          fontFamily: "PP Editorial, serif",
           position: "relative",
           boxSizing: "border-box",
         }}
       >
-        {/* Subtle grid pattern background overlay */}
+        {/* Subtle Luxury Gold Gradient Glow Background */}
         <div
           style={{
             position: "absolute",
@@ -58,7 +58,7 @@ export default async function Image() {
             right: 0,
             bottom: 0,
             backgroundImage:
-              "radial-gradient(circle at 50% 50%, rgba(245, 245, 247, 0.7) 0%, rgba(255, 255, 255, 1) 100%)",
+              "radial-gradient(circle at 25% 50%, rgba(212, 175, 55, 0.08) 0%, rgba(10, 10, 10, 1) 70%)",
             pointerEvents: "none",
           }}
         />
@@ -71,17 +71,17 @@ export default async function Image() {
             left: "32px",
             right: "32px",
             bottom: "32px",
-            border: "1px solid #E4E4E7",
-            borderRadius: "24px",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            borderRadius: "20px",
             pointerEvents: "none",
           }}
         />
 
-        {/* Top bar detail */}
+        {/* Top Header details */}
         <div
           style={{
             position: "absolute",
-            top: "56px",
+            top: "48px",
             left: "64px",
             right: "64px",
             display: "flex",
@@ -91,21 +91,21 @@ export default async function Image() {
         >
           <span
             style={{
-              fontSize: "13px",
-              letterSpacing: "0.22em",
+              fontSize: "12px",
+              letterSpacing: "0.25em",
               textTransform: "uppercase",
               color: "#A1A1AA",
               fontFamily: "Berkeley Mono, monospace",
             }}
           >
-            PORTFOLIO
+            PORTFOLIO / 2026
           </span>
           <span
             style={{
-              fontSize: "13px",
-              letterSpacing: "0.22em",
+              fontSize: "12px",
+              letterSpacing: "0.25em",
               textTransform: "uppercase",
-              color: "#A1A1AA",
+              color: "#D4AF37",
               fontFamily: "Berkeley Mono, monospace",
             }}
           >
@@ -113,98 +113,109 @@ export default async function Image() {
           </span>
         </div>
 
-        {/* Center Content: Profile Picture + Name */}
+        {/* Main Content Layout */}
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             alignItems: "center",
-            justifyContent: "center",
-            gap: "28px",
+            gap: "56px",
             zIndex: 10,
+            width: "100%",
+            justifyContent: "flex-start",
           }}
         >
-          {/* Profile Picture */}
+          {/* Profile Picture with Golden Editorial Ring */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               borderRadius: "50%",
-              padding: "6px",
-              backgroundColor: "#FFFFFF",
-              boxShadow:
-                "0 20px 40px -15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.08)",
+              padding: "4px",
+              background: "linear-gradient(135deg, #D4AF37 0%, rgba(212, 175, 55, 0.2) 100%)",
+              boxShadow: "0 0 40px rgba(212, 175, 55, 0.15)",
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={pfpBase64}
-              alt="vikasacharya profile picture"
-              width="160"
-              height="160"
+            <div
               style={{
+                display: "flex",
                 borderRadius: "50%",
-                objectFit: "cover",
-                width: "160px",
-                height: "160px",
+                padding: "4px",
+                backgroundColor: "#0A0A0A",
               }}
-            />
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={pfpBase64}
+                alt="Vikas Acharya"
+                width="200"
+                height="200"
+                style={{
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  width: "200px",
+                  height: "200px",
+                }}
+              />
+            </div>
           </div>
 
-          {/* Name */}
+          {/* Typography Section */}
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              gap: "8px",
+              alignItems: "flex-start",
+              gap: "12px",
             }}
           >
             <h1
               style={{
-                fontSize: "68px",
-                fontWeight: 700,
-                letterSpacing: "-0.03em",
-                color: "#09090B",
+                fontSize: "76px",
+                fontWeight: 400,
+                letterSpacing: "-0.02em",
+                color: "#FAFAFA",
                 margin: 0,
-                lineHeight: 1.1,
+                lineHeight: 1.05,
+                fontFamily: "PP Editorial, serif",
               }}
             >
-              vikasacharya
+              Vikas Acharya
             </h1>
             <p
               style={{
                 fontSize: "18px",
-                color: "#71717A",
+                color: "#A1A1AA",
                 fontFamily: "Berkeley Mono, monospace",
-                letterSpacing: "0.08em",
+                letterSpacing: "0.15em",
                 margin: 0,
-                textTransform: "lowercase",
+                textTransform: "uppercase",
               }}
             >
-              software builder & developer
+              Software Builder & Developer
             </p>
           </div>
         </div>
 
-        {/* Bottom bar detail */}
+        {/* Bottom Footer Detail */}
         <div
           style={{
             position: "absolute",
-            bottom: "56px",
+            bottom: "48px",
+            left: "64px",
+            right: "64px",
             display: "flex",
+            justifyContent: "space-between",
             alignItems: "center",
-            gap: "8px",
-            fontSize: "12px",
-            color: "#A1A1AA",
+            fontSize: "11px",
+            color: "#71717A",
             fontFamily: "Berkeley Mono, monospace",
-            letterSpacing: "0.15em",
+            letterSpacing: "0.2em",
           }}
         >
-          <span>© 2026</span>
-          <span>•</span>
           <span>DESIGN & ENGINEERING</span>
+          <span>CRAFTED WITH PRECISION</span>
         </div>
       </div>
     ),
@@ -212,10 +223,10 @@ export default async function Image() {
       ...size,
       fonts: [
         {
-          name: "FK Grotesk",
-          data: fkGroteskData,
+          name: "PP Editorial",
+          data: ppEditorialData,
           style: "normal",
-          weight: 700,
+          weight: 400,
         },
         {
           name: "Berkeley Mono",
@@ -227,4 +238,5 @@ export default async function Image() {
     }
   );
 }
+
 
