@@ -46,17 +46,17 @@ export const metadata: Metadata = {
     siteName: "Vikas Acharya",
     images: [
       {
-        url: "/api/og",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Vikas Acharya — Design, Engineering & Human Taste",
+        alt: "Vikas Acharya — My corner of the internet",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     creator: "@VikasAcharyaa",
-    images: ["/api/og"],
+    images: ["/og-image.png"],
   },
 };
 

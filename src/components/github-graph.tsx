@@ -10,7 +10,8 @@ const GITHUB_USERNAME = "Vikbuilds";
 const GITHUB_PROFILE_URL = "https://github.com/Vikbuilds";
 
 export function GitHubGraph() {
-  const contributions = getCachedContributions(GITHUB_USERNAME);
+  const currentYear = new Date().getFullYear();
+  const contributions = getCachedContributions(GITHUB_USERNAME, currentYear);
 
   return (
     <section className="space-y-6">
@@ -18,8 +19,8 @@ export function GitHubGraph() {
         <h2 className="text-xl font-semibold tracking-tight text-foreground">
           Contributions
         </h2>
-        <p className="mt-1 text-md text-muted-foreground">
-          My open-source activity over the past year.
+        <p className="mt-1 text-sm text-muted-foreground font-normal">
+          Building in public and open-source activity in {currentYear}.
         </p>
       </div>
 
