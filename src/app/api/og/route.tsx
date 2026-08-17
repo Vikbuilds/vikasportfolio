@@ -1,13 +1,24 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 
-export const runtime = "edge";
-
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const title = searchParams.get("title");
   const subtitle = searchParams.get("subtitle");
   const category = searchParams.get("category") || "PORTFOLIO";
+
+  if (!title || title === "Vikas Acharya" || title === "vikasacharya") {
+    const ogImageData = await fetch(
+      new URL("../../../../public/og-image.png", import.meta.url)
+    ).then((res) => res.arrayBuffer());
+
+    return new Response(ogImageData, {
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    });
+  }
 
   const [pfpData, fkGroteskData, berkeleyMonoData] = await Promise.all([
     fetch(
@@ -28,19 +39,6 @@ export async function GET(req: NextRequest) {
   ]);
 
   const pfpBase64 = `data:image/png;base64,${Buffer.from(pfpData).toString("base64")}`;
-
-  if (!title || title === "Vikas Acharya" || title === "vikasacharya") {
-    const ogImageData = await fetch(
-      new URL("../../../../public/og-image.png", import.meta.url)
-    ).then((res) => res.arrayBuffer());
-
-    return new Response(ogImageData, {
-      headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=31536000, immutable",
-      },
-    });
-  }
 
   // Dynamic layout for blog posts / writings in white theme
   return new ImageResponse(
