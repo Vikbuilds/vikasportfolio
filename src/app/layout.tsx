@@ -4,7 +4,6 @@ import { Geist, Schibsted_Grotesk, Baloo_Bhaijaan_2 } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { CommandPalette } from "@/components/command-palette";
 import { PageTransition } from "@/components/page-transition";
-import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -85,7 +84,6 @@ export default function RootLayout({
         >
           <PageTransition>{children}</PageTransition>
           <CommandPalette />
-          <SmoothCursor />
           <Analytics />
         </ThemeProvider>
       </body>

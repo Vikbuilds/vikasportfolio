@@ -297,10 +297,4 @@ body {
   transform: translateZ(0);
   backface-visibility: hidden;
 }
-
-/* Hide native OS browser cursor globally so only the custom interactive smooth cursor is visible */
-@media (any-hover: hover) and (any-pointer: fine) {
-  *, *::before, *::after, html, body, button, a, input, textarea {
-    cursor: none !important;
-  }
-}
+
