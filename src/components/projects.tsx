@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import { projects } from "@/data/projects";
+import { SoftwareAppJsonLd } from "@/components/json-ld";
 
 function getDomain(url?: string) {
   if (!url) return "";
@@ -19,6 +20,17 @@ function getDomain(url?: string) {
 export function Projects() {
   return (
     <section id="work" className="space-y-4 scroll-mt-24">
+      {/* Software Application JSON-LD Schemas for pSEO & GEO */}
+      {projects.map((project) => (
+        <SoftwareAppJsonLd
+          key={`schema-${project.title}`}
+          name={project.title}
+          description={project.description}
+          url={project.liveUrl || project.githubUrl}
+          techStack={project.techStack}
+        />
+      ))}
+
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -32,6 +44,7 @@ export function Projects() {
           A selection of projects and applications I've built.
         </p>
       </motion.div>
+
 
       <div className="space-y-0.5">
         {projects.map((project, index) => {

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { blogs } from "@/data/blogs";
 import { Navbar } from "@/components/navbar";
 import { BlogContent } from "@/components/blog-content";
+import { ArticleJsonLd } from "@/components/json-ld";
 
 export function generateStaticParams() {
   return blogs.map((blog) => ({ slug: blog.slug }));
@@ -54,8 +55,15 @@ export default async function WritingPostPage({ params }: { params: Promise<{ sl
 
   return (
     <>
+      <ArticleJsonLd
+        title={blog.title}
+        description={blog.description}
+        date={blog.date}
+        url={blog.url}
+      />
       <Navbar />
       <BlogContent blog={blog} />
     </>
   );
 }
+
