@@ -25,6 +25,20 @@ export const projects: Project[] = [
     status: "live",
   },
   {
+    title: "bidfor.lol",
+    description: "Permanent interactive canvas billboard where space is claimed forever",
+    thumbnail: "/projects/bidfor.png",
+    icon: "/projects/bidfor.png",
+    liveUrl: "https://bidfor.lol",
+    techStack: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Canvas API",
+    ],
+    status: "live",
+  },
+  {
     title: "poloro.xyz",
     description: "Polaroid-style instant camera & vintage film photo creator",
     thumbnail: "/projects/poloro.png",

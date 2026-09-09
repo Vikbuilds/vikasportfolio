@@ -18,7 +18,7 @@ export function PersonJsonLd() {
       "alternateName": ["Vikbuilds", "VikasAcharyaa", "vikdev"],
       "jobTitle": "Fullstack Software Builder & Developer",
       "description":
-        "Software builder and fullstack developer crafting robust applications for web and mobile. Creator of craked.dev, poloro.xyz, and plibo.xyz.",
+        "Software builder and fullstack developer crafting robust applications for web and mobile. Creator of craked.dev, bidfor.lol, poloro.xyz, and plibo.xyz.",
       "url": baseUrl,
       "image": `${baseUrl}/og-image.png`,
       "email": "mailto:vikasacharyaaa@gmail.com",
