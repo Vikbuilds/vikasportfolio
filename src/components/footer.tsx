@@ -1,6 +1,7 @@
 import { Bug } from "lucide-react";
 import { FooterIllustration } from "@/components/footer-illustration";
 import { AgeClock } from "@/components/age-clock";
+import { VisitCounter } from "@/components/visit-counter";
 
 export function Footer() {
   return (
@@ -19,8 +20,10 @@ export function Footer() {
             Vikas Acharya
           </a>
         </p>
-        <div className="flex items-center gap-2 text-[11px] text-muted-foreground/50">
+        <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground/50 flex-wrap">
           <p>© {new Date().getFullYear()} · All rights reserved.</p>
+          <span>·</span>
+          <VisitCounter />
           <span>·</span>
           <a
             href="https://x.com/VikasAcharyaa"
