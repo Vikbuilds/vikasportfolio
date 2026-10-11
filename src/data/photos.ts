@@ -9,13 +9,6 @@ export interface PhotoItem {
 
 export const photos: PhotoItem[] = [
   {
-    id: "golden-hour-eye",
-    title: "Amber Horizons in Her Eyes",
-    src: "/photos/golden-hour-eye.jpg",
-    date: "Feb 2026",
-    story: "Warm golden light dancing within an iris as dusk settles. A quiet moment where the entire sunset is reflected in a single gaze.",
-  },
-  {
     id: "lighthouse-dog",
     title: "Siesta Under the Beacon",
     location: "Puducherry Beach, India",
