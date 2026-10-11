@@ -11,14 +11,14 @@ export function VisitCounter({ className }: { className?: string }) {
 
     async function fetchVisits() {
       try {
-        const res = await fetch("/api/visitors");
+        const res = await fetch("/api/visitors", { cache: "no-store" });
         if (!res.ok) return;
         const data = await res.json();
         if (typeof data.visits === "number" && isMounted) {
           setVisits(data.visits);
         }
       } catch {
-        // Fallback remains active
+        // Graceful fallback
       }
     }
 
@@ -29,8 +29,6 @@ export function VisitCounter({ className }: { className?: string }) {
     };
   }, []);
 
-  const displayCount = visits !== null ? visits.toLocaleString() : "8,144";
-
   return (
     <span
       className={`inline-flex items-center gap-1 select-none text-muted-foreground/50 ${className ?? ""}`}
@@ -38,9 +36,9 @@ export function VisitCounter({ className }: { className?: string }) {
       <Eye size={11} className="shrink-0 text-muted-foreground/60" />
       <span
         suppressHydrationWarning
-        className="font-mono tabular-nums font-medium text-muted-foreground/80"
+        className="font-mono tabular-nums font-medium text-muted-foreground/80 min-w-[20px] text-center"
       >
-        {displayCount}
+        {visits !== null ? visits.toLocaleString() : "···"}
       </span>
       <span>visits</span>
     </span>
