@@ -84,7 +84,7 @@ export function CommandPalette() {
   }, []);
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText("vikas.devopp@gmail.com");
+    navigator.clipboard.writeText("vikasacharyaaa@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -232,7 +232,7 @@ export function CommandPalette() {
                       </span>
                     </div>
                     <span className="font-mono text-xs text-muted-foreground/60">
-                      vikas.devopp@gmail.com
+                      vikasacharyaaa@gmail.com
                     </span>
                   </Command.Item>
 

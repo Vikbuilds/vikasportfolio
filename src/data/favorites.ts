@@ -46,6 +46,17 @@ export const favorites: FavoriteItem[] = [
     ogImage: "/favorites/robin-williams-cover.jpg",
   },
   {
+    id: "osho",
+    title: "Osho",
+    description: "Life begins where fear ends.",
+    domain: "osho.com",
+    url: "https://www.osho.com",
+    category: "People",
+    icon: "/favorites/osho-icon.jpg",
+    coverImage: "/favorites/osho-cover.jpg",
+    ogImage: "/favorites/osho-cover.jpg",
+  },
+  {
     id: "nimsdai-purja",
     title: "Nimsdai Purja",
     description: "Giving up is not in the blood, sir. It's not in the blood.",
