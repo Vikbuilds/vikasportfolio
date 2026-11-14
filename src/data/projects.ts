@@ -38,32 +38,4 @@ export const projects: Project[] = [
     ],
     status: "live",
   },
-  {
-    title: "plibo.xyz",
-    description: "Digital library platform for creating & browsing actionable playbooks for builders & founders",
-    thumbnail: "/projects/plibo_favicon.png",
-    icon: "/projects/plibo_favicon.png",
-    liveUrl: "https://plibo.xyz",
-    techStack: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Framer Motion",
-    ],
-    status: "live",
-  },
-  {
-    title: "bidfor.lol",
-    description: "Permanent interactive canvas billboard where space is claimed forever",
-    thumbnail: "/projects/bidfor.png",
-    icon: "/projects/bidfor.png",
-    liveUrl: "https://bidfor.lol",
-    techStack: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Canvas API",
-    ],
-    status: "live",
-  },
 ];

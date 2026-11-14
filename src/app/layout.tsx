@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | Vikas Acharya",
   },
   description:
-    "Software builder and fullstack developer crafting robust applications for web and mobile. Creator of craked.dev, bidfor.lol, poloro.xyz, and plibo.xyz. Explore my projects, writings, and open-source contributions.",
+    "Software builder and fullstack developer crafting robust applications for web and mobile. Creator of craked.dev and poloro.xyz. Explore my projects, writings, and open-source contributions.",
   keywords: [
     "Vikas Acharya",
     "Vikbuilds",
@@ -43,9 +43,7 @@ export const metadata: Metadata = {
     "Next.js Developer",
     "TypeScript",
     "craked.dev",
-    "bidfor.lol",
     "poloro.xyz",
-    "plibo.xyz",
     "Web Developer Portfolio",
     "Generative Engine Optimization"
   ],
@@ -69,7 +67,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Vikas Acharya — Fullstack Software Builder",
     description:
-      "Software builder and fullstack developer crafting robust applications for web and mobile. Creator of craked.dev, bidfor.lol, poloro.xyz, and plibo.xyz.",
+      "Software builder and fullstack developer crafting robust applications for web and mobile. Creator of craked.dev and poloro.xyz.",
     type: "website",
     url: baseUrl,
     siteName: "Vikas Acharya",
