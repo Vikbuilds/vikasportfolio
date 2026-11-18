@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { LocationPopover } from "@/components/location-popover";
@@ -34,8 +35,23 @@ export function About() {
       content: (
         <>
           Over the last few years, my focus has been deeply rooted in the startup ecosystem. I
-          launched <span className="text-foreground font-medium">WelBe</span>, a mental health
-          startup, which taught me the hard realities of building something from scratch. Later on,
+          launched{" "}
+          <a
+            href="https://www.linkedin.com/company/welbecare/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-foreground font-medium underline decoration-muted-foreground/40 underline-offset-4 hover:decoration-foreground transition-colors group cursor-pointer"
+          >
+            <Image
+              src="/welbe.png"
+              alt="WelBe Logo"
+              width={16}
+              height={16}
+              className="h-4 w-4 rounded-xs object-cover shrink-0 border border-border/40 inline-block"
+            />
+            <span>WelBe</span>
+          </a>
+          , a mental health startup, which taught me the hard realities of building something from scratch. Later on,
           I built digital marketplaces to help startups trade and liquidate dead assets (though it
           didn&apos;t work out as planned!). Along the way, making it to the top 15 at the{" "}
           <span className="text-foreground font-medium">IIM Bangalore Business Mastermind</span> was
