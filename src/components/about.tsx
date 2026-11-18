@@ -23,8 +23,22 @@ export function About() {
       content: (
         <>
           I started out studying{" "}
-          <span className="text-foreground font-medium">Bachelors in Computer Applications</span>,
-          but I quickly realized that staring at textbooks wasn’t going to cut it. I learned way
+          <a
+            href="https://aibmckm.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-foreground font-medium underline decoration-muted-foreground/40 underline-offset-4 hover:decoration-foreground transition-colors group cursor-pointer"
+          >
+            <Image
+              src="/aibmc.png"
+              alt="AIBMC Logo"
+              width={16}
+              height={16}
+              className="h-4 w-4 rounded-xs object-cover shrink-0 border border-border/40 inline-block"
+            />
+            <span>Bachelors in Computer Applications</span>
+          </a>
+          , but I quickly realized that staring at textbooks wasn’t going to cut it. I learned way
           faster by actually getting my hands dirty - building random things, breaking them,
           figuring out why they broke, and putting stuff out on the internet for real people to use.
         </>
@@ -68,23 +82,24 @@ export function About() {
           had zero culture around building things. No mentors, no hackathons, just textbooks and
           exams. I could see where that was heading: talented people finishing four years having
           built nothing, while people at bigger colleges had all of it handed to them. So I started{" "}
-          <span className="text-foreground font-medium">Builtby.BCA</span> - brought in industry
-          mentors, ran hackathons and technical sprints, built the ecosystem that should&apos;ve
+          <a
+            href="https://builtbybca.club"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-foreground font-medium underline decoration-muted-foreground/40 underline-offset-4 hover:decoration-foreground transition-colors group cursor-pointer"
+          >
+            <Image
+              src="/builtbybca.png"
+              alt="Builtby.BCA Logo"
+              width={16}
+              height={16}
+              className="h-4 w-4 rounded-xs object-cover shrink-0 border border-border/40 inline-block"
+            />
+            <span>Builtby.BCA</span>
+          </a>{" "}
+          - brought in industry mentors, ran hackathons and technical sprints, built the ecosystem that should&apos;ve
           existed already. It&apos;s still running today, and it&apos;s proof that where you
           studied has very little to do with what you&apos;re capable of building.
-        </>
-      ),
-    },
-    {
-      id: "philosophy",
-      content: (
-        <>
-          When it comes to building, I don&apos;t pretend to be a traditional enterprise engineer
-          typing out every single line of code by hand. Instead, I use{" "}
-          <span className="text-foreground font-medium">modern AI as a leverage tool</span>. I
-          understand how systems talk to each other, I know how to steer the AI effectively, and I
-          use that to bridge the gap between a random idea in my head and a working product before I
-          lose momentum.
         </>
       ),
     },
